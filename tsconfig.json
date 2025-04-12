@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ES2020", "DOM"],
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "sourceMap": true,
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "types": [ 
+      "node",
+    ],
+    "paths": {
+      "gutensight": ["./src/index"],
+      "gutensight/react": ["./src/integration/adapters/react/index"],
+      "gutensight/vue": ["./src/integration/adapters/vue/index"],
+      "gutensight/angular": ["./src/integration/adapters/angular/index"],
+      "gutensight/svelte": ["./src/integration/adapters/svelte/index"]
+    }
+  },
+  "include": ["src/**/*", "bin/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts", "src/template/*"]
+}
