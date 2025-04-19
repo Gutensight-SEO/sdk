@@ -40,7 +40,7 @@ async function compile() {
         }
     }
     catch (error) {
-        console.error('Error during compilation:', error.message);
+        console.error(`❌ ${error.message ? error.message : error}`);
         process.exit(1);
     }
 }

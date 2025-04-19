@@ -1,9 +1,9 @@
-/** @format */
+require('dotenv').config();
 
 module.exports = {
   outputDir: './public',
   analyticsDir: './gutensight-analytics',
-  language: 'js',
+  language: 'ts',
   seoMapFile: 'seo-map.json',
   htmlEntryFile: './public/index.html',
   router: {

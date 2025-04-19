@@ -12,7 +12,7 @@
     }
   },
   {
-    "route": "about",
+    "route": "/about",
     "metadata": {
       "title": "",
       "description": "",
@@ -24,7 +24,7 @@
     }
   },
   {
-    "route": "contact",
+    "route": "/contact",
     "metadata": {
       "title": "",
       "description": "",
@@ -48,7 +48,7 @@
     }
   },
   {
-    "route": "session",
+    "route": "/session/login",
     "metadata": {
       "title": "",
       "description": "",
@@ -60,7 +60,7 @@
     }
   },
   {
-    "route": "login",
+    "route": "/session/register",
     "metadata": {
       "title": "",
       "description": "",
@@ -72,7 +72,7 @@
     }
   },
   {
-    "route": "register",
+    "route": "/dashboard",
     "metadata": {
       "title": "",
       "description": "",
@@ -84,7 +84,7 @@
     }
   },
   {
-    "route": "dashboard",
+    "route": "/dashboard/profile",
     "metadata": {
       "title": "",
       "description": "",
@@ -96,7 +96,7 @@
     }
   },
   {
-    "route": "profile",
+    "route": "/dashboard/setting/update-profile",
     "metadata": {
       "title": "",
       "description": "",
@@ -108,7 +108,7 @@
     }
   },
   {
-    "route": "setting",
+    "route": "/dashboard/subscription/list",
     "metadata": {
       "title": "",
       "description": "",
@@ -120,7 +120,7 @@
     }
   },
   {
-    "route": "update-profile",
+    "route": "/dashboard/subscription/active",
     "metadata": {
       "title": "",
       "description": "",
@@ -132,7 +132,7 @@
     }
   },
   {
-    "route": "subscription",
+    "route": "/dashboard/subscription/api-keys",
     "metadata": {
       "title": "",
       "description": "",
@@ -144,31 +144,7 @@
     }
   },
   {
-    "route": "list",
-    "metadata": {
-      "title": "",
-      "description": "",
-      "body": "",
-      "keywords": [],
-      "headers": [],
-      "changefreq": "",
-      "priority": 0
-    }
-  },
-  {
-    "route": "active",
-    "metadata": {
-      "title": "",
-      "description": "",
-      "body": "",
-      "keywords": [],
-      "headers": [],
-      "changefreq": "",
-      "priority": 0
-    }
-  },
-  {
-    "route": "api-keys",
+    "route": "/",
     "metadata": {
       "title": "",
       "description": "",

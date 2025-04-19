@@ -45,8 +45,6 @@
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.22.5",
-    "@babel/traverse": "^7.22.5",
     "axios": "^1.4.0",
     "commander": "^10.0.0",
     "configstore": "^6.0.0",
@@ -56,6 +54,10 @@
     "luxon": "^3.3.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/parser": "^7.27.0",
+    "@babel/traverse": "^7.27.0",
+    "@babel/types": "^7.27.0",
     "@types/configstore": "^6.0.2",
     "@types/fs-extra": "^11.0.1",
     "@types/inquirer": "^9.0.3",

@@ -50,7 +50,7 @@ async function generateSeoMap() {
         }
     }
     catch (error) {
-        throw new Error(`❌ ${error.message ? error.message : error}`);
+        throw new Error(`${error.message ? error.message : error}`);
     }
 }
 //# sourceMappingURL=generateSeoMap.js.map

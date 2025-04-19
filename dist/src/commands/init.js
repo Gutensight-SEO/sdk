@@ -99,7 +99,7 @@ async function init(options) {
         // await fs.copy(configTemplatePath, configDestinationPath);
         // console.log(`${configFileName} has been created successfully.`);
         await fs_extra_1.default.writeFile(configDestinationPath, configContent);
-        console.log(`Configuration file ${configFileName} has been created successfully.`);
+        console.log(`✅ Configuration file ${configFileName} has been created successfully.`);
         console.log(`
 Successfully created ${configFileName}
 Next steps:
@@ -110,7 +110,7 @@ Next steps:
 3. Run 'seo compile' to generate initial SEO map`);
     }
     catch (error) {
-        console.error('Error during initialization:', error.message);
+        console.error(`❌ ${error.message ? error.message : error}`);
     }
 }
 //# sourceMappingURL=init.js.map

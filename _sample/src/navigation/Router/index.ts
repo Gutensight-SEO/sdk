@@ -3,7 +3,6 @@ import { RouteObject } from "react-router-dom";
 import { Loadable } from "../../globals/index.ts";
 import ActiveSubscriptions from "@/pages/Dashboard/Subscription/ActiveSubscriptions/index.tsx";
 import ProtectedRoute from '@/components/ProtectedRoute';
-// import Welcome from ";
 
 // Layouts
 const SessionLayout = Loadable(lazy(() => import("../../layouts/session/index.tsx")));
@@ -26,11 +25,17 @@ const ProfilePage = Loadable(lazy(() => import("../../pages/Dashboard/Profile/in
 const UpdateProfilePage = Loadable(lazy(() => import("../../pages/Dashboard/Settings/UpdateProfile/index.tsx")));
 const SubscriptionListPage = Loadable(lazy(() => import("../../pages/Dashboard/Subscription/SubscriptionList/index.tsx")));
 const ApiKeysPage = Loadable(lazy(() => import("../../pages/Dashboard/Subscription/ApiKeys/index.tsx")));
-const PaymentPage = Loadable(lazy(() => import("../../pages/Dashboard/Subscription/Payment/index.tsx")));
+// const PaymentPage = Loadable(lazy(() => import("../../pages/Dashboard/Subscription/Payment/index.tsx")));
 
-const router: RouteObject[] = [
+type RouteObjectWithSEO = RouteObject & {
+  // seoExclude?: boolean;
+  // children?: RouteObjectWithSEO[];
+};
+
+const router: RouteObjectWithSEO[] = [
   {
     path: "/",
+    // seoExclude: true,
     element: createElement(LandingPageLayout),
     children: [
       {
@@ -46,13 +51,14 @@ const router: RouteObject[] = [
         element: createElement(Contact)
       },
       {
-        path: "/v1/documentation",
+        path: "v1/documentation",
         element: createElement(Documentation)
       },
     ]
   },
   {
     path: "session",
+    // seoExclude: true,
     element: createElement(SessionLayout),
     children: [
       {
@@ -67,6 +73,7 @@ const router: RouteObject[] = [
   },
   {
     path: "dashboard",
+    // seoExclude: true,
     element: createElement(ProtectedRoute, {
       children: createElement(DashboardLayout)
     }),

@@ -1,92 +1,105 @@
 import fs from 'fs-extra';
-import path from 'path';
 import { parse } from '@babel/parser';
-import traverse from '@babel/traverse';
-
+import traverse, { NodePath } from '@babel/traverse';
+import * as t from '@babel/types';
 
 interface RouteNode {
   path: string;
   seoExclude: boolean;
-  title: string;
-  metadata: {
-    body?: string;
-    description?: string;
-    headers?: string[];
-    keywords?: string[];
-    changefreq?: string;
-    priority?: number;
-  }
+  children: RouteNode[];
 }
 
-export async function parseRoutes(entryFilePath: string): Promise<{ path: string; seoExclude: boolean }[]> {
-  try {
-    const fileContent = await fs.readFile(entryFilePath, 'utf-8');
-    const ast = parse(fileContent, {
-      sourceType: 'module',
-      plugins: ['jsx', 'typescript'],
-    });
+/**
+ * Parses the router file to extract route information.
+ * @param entryFilePath Path to the router file.
+ * @returns Array of normalized routes (path and seoExclude flag).
+ */
+export async function parseRoutes(
+  entryFilePath: string
+): Promise<{ path: string; seoExclude: boolean }[]> {
+  const fileContent = await fs.readFile(entryFilePath, 'utf-8');
+  const ast = parse(fileContent, {
+    sourceType: 'module',
+    plugins: ['jsx', 'typescript'],
+  });
 
-    const routes: Array<{ path: string; seoExclude: boolean }> = [];
+  const routeTree: RouteNode[] = [];
+  const nodeMap = new WeakMap<t.ObjectExpression, RouteNode>();
 
-    traverse(ast, {
-      ObjectExpression(path) {
-        const routeNode: RouteNode = {
-          path: extractPropertyValue(path.node, 'path') || '',
-          seoExclude: extractPropertyValue(path.node, 'seoExclude') === 'true',
-          title: extractPropertyValue(path.node, 'title') || '',
-          metadata: {
-            body: extractPropertyValue(path.node, 'body') || '',            description: extractPropertyValue(path.node, 'description') || '',
-            headers: extractArrayValue(path.node, 'headers') || [],
-            keywords: extractArrayValue(path.node, 'keywords') || [],
-            changefreq: extractPropertyValue(path.node, 'changefreq') || '',
-            priority: parseFloat(extractPropertyValue(path.node, 'priority') || '0') || undefined,          }
-        };
-        
-        if (routeNode.path) {
-          routes.push(routeNode);
+  traverse(ast, {
+    ObjectExpression(path: NodePath<t.ObjectExpression>) {
+      const obj = path.node;
+
+      // Extract metadata
+      const pathStr = extractStringProperty(obj, 'path')?.replace(/^\//, '') ?? '';
+      const seoExclude = extractBooleanProperty(obj, 'seoExclude');
+
+      // Initialize RouteNode
+      const route: RouteNode = { path: pathStr, seoExclude, children: [] };
+      nodeMap.set(obj, route);
+
+      // Determine if this object is under a "children" array
+      const parent = path.parentPath;
+      if (
+        parent?.isArrayExpression() &&
+        parent.parentPath?.isObjectProperty() &&
+        t.isIdentifier(parent.parentPath.node.key, { name: 'children' })
+      ) {
+        // We are inside a children array; attach to parent RouteNode
+        const grandParentObj = parent.parentPath.parentPath;
+        if (grandParentObj?.isObjectExpression()) {
+          const parentRoute = nodeMap.get(grandParentObj.node);
+          parentRoute?.children.push(route);
         }
+      } else {
+        // Top-level route
+        routeTree.push(route);
       }
-    });
+    },
+  });
 
-    return flattenRoutes(routes);
-  } catch (error: any) {
-    throw new Error(error.message? error.message : error);
+  // Flatten tree into absolute paths
+  const absoluteRoutes: { path: string; seoExclude: boolean }[] = [];
+  const buildPaths = (node: RouteNode, base = '') => {
+    const fullPath = node.path ? `${base}/${node.path}`.replace(/\/\/+/, '/').replace(/\/$/, '') : base || '/';
+    if (node.children.length === 0) {
+      absoluteRoutes.push({ path: fullPath || '/', seoExclude: node.seoExclude });
+    }
+    node.children.forEach(child => buildPaths(child, fullPath));
+  };
+
+  routeTree.forEach(root => buildPaths(root));
+
+  // Return only SEO-included routes
+  return absoluteRoutes.filter(r => !r.seoExclude);
+}
+
+/**
+ * Safely extracts a string property from an ObjectExpression.
+ */
+function extractStringProperty(
+  node: t.ObjectExpression,
+  propertyName: string
+): string | undefined {
+  for (const prop of node.properties) {
+    if (t.isObjectProperty(prop) && t.isIdentifier(prop.key, { name: propertyName }) && t.isStringLiteral(prop.value)) {
+      return prop.value.value.trim();
+    }
   }
+  return undefined;
 }
 
-function extractArrayValue(node: any, propertyName: string): string[] {
-  const property = node.properties.find((p: any) => p.key.name === propertyName);
-  return property?.value?.elements?.map((el: any) => el.value) || [];
-}
-
-function extractPropertyValue(node: any, propertyName: string): string | null {
-  let value = null;
-  node.properties.forEach((property: any) => {
-    if (property.key.name === propertyName && property.value) {
-      value = property.value.value?.toString() || null;
+/**
+ * Safely extracts a boolean property from an ObjectExpression.
+ */
+function extractBooleanProperty(
+  node: t.ObjectExpression,
+  propertyName: string
+): boolean {
+  for (const prop of node.properties) {
+    if (t.isObjectProperty(prop) && t.isIdentifier(prop.key, { name: propertyName }) && t.isBooleanLiteral(prop.value)) {
+      return prop.value.value;
     }
-  });
-  return value;
-}
-
-// function extractRouteFromNode(node: any): string | null {
-//   let pathValue = null;
-
-//   node.properties.forEach((property: any) => {
-//     if (property.key.name === 'path') {
-//       pathValue = property.value.value;
-//     }
-//   });
-
-//   return pathValue;
-// }
-
-function flattenRoutes(routes: Array<{ path: string; seoExclude: boolean }>): Array<{ path: string; seoExclude: boolean }> {
-  const uniqueRoutes = new Map<string, boolean>();
-  routes.forEach(route => {
-    if (route.path && !uniqueRoutes.has(route.path)) {
-      uniqueRoutes.set(route.path, route.seoExclude);
-    }
-  });
-  return Array.from(uniqueRoutes).map(([path, seoExclude]) => ({ path, seoExclude }));
+  }
+  return false;
 }
