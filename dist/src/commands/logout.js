@@ -9,10 +9,10 @@ const config = new configstore_1.default('gutensight-seo');
 function logout() {
     try {
         config.delete('apiKey');
-        console.log('Logged out successfully.');
+        console.log('✅ Logged out successfully.');
     }
     catch (error) {
-        console.error('Error during logout:', error.message);
+        console.error('❌ Error during logout:', error.message);
     }
 }
 //# sourceMappingURL=logout.js.map

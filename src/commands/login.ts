@@ -22,7 +22,7 @@ export async function login() {
 
     console.log("Authenticating...")
     const response = await axios.post('https://gs-server-hzfd.onrender.com/api/v1/api-key', { apiKey });
-    console.log("Response gotten:", response.data)
+    // console.log("Response gotten:", response.data)
 
     if (response.data.success) {
       config.set('apiKey', apiKey);
