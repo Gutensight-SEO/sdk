@@ -34,7 +34,7 @@ async function build() {
             console.log('✅ SEO files generated successfully.');
         }
         catch (genError) {
-            console.error(genError.message);
+            console.error(`❌ ${genError.message}`);
             process.exit(1);
         }
     }

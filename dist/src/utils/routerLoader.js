@@ -18,12 +18,12 @@ async function getRoutesFromRouterFile() {
         const config = await (0, configLoader_1.loadConfig)();
         const { router } = config;
         if (!router || !router.path) {
-            throw new Error('Router file path is missing in the configuration.');
+            throw new Error('❌ Router file path is missing in the configuration.');
         }
         // Resolve the router file path relative to the working directory
         const routerPath = path_1.default.resolve(process.cwd(), router.path);
         if (!fs_extra_1.default.existsSync(routerPath)) {
-            throw new Error(`Router file not found at: ${routerPath}. Please check your router path in seo.config`);
+            throw new Error(`❌ Router file not found at: ${routerPath}. Please check your router path in seo.config`);
         }
         // Add basic route if no routes are found
         const routes = await (0, routeParser_1.parseRoutes)(routerPath);
@@ -33,7 +33,7 @@ async function getRoutesFromRouterFile() {
         return routes;
     }
     catch (error) {
-        throw new Error(error.message);
+        throw new Error(`❌ ${error.message}`);
     }
 }
 //# sourceMappingURL=routerLoader.js.map
