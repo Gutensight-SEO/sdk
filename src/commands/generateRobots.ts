@@ -43,13 +43,14 @@ export async function generateRobots() {
     });
 
     // Add Disallow for all other routes
-    robotsContent += `\nDisallow: *`;
+    robotsContent += `\n\nDisallow: *`;
 
     // Add Sitemap link
-    robotsContent += `\nSitemap: ${hostname}/sitemap.xml`;
+    robotsContent += `\n\nSitemap: ${hostname}/sitemap.xml`;
 
     const outputPath = path.resolve(process.cwd(), config.outputDir, 'robots.txt');
     await fs.writeFile(outputPath, robotsContent.trim());
+    console.log('⚠️ You can customize the robots.txt file in the output directory.');
     console.log('✅ robots.txt generated successfully.');
   } catch (error: any) {
     throw new Error(`❌ ${error.message ? error.message : error}`);

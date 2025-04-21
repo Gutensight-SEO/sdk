@@ -83,12 +83,23 @@ async function parseRoutes(entryFilePath) {
     });
     // Flatten tree into absolute paths
     const absoluteRoutes = [];
-    const buildPaths = (node, base = '') => {
-        const fullPath = node.path ? `${base}/${node.path}`.replace(/\/\/+/, '/').replace(/\/$/, '') : base || '/';
-        if (node.children.length === 0) {
-            absoluteRoutes.push({ path: fullPath || '/', seoExclude: node.seoExclude });
+    // Inside parseRoutes function
+    const buildPaths = (node, base = '', isParentExcluded = false) => {
+        const isExcluded = node.seoExclude || isParentExcluded; // Combine current node's exclusion with ancestors'
+        const fullPath = node.path
+            ? `${base}/${node.path}`.replace(/\/\/+/g, '/').replace(/\/$/, '')
+            : base || '/';
+        if (!isExcluded) {
+            if (node.children.length === 0) {
+                absoluteRoutes.push({ path: fullPath, seoExclude: isExcluded });
+            }
+            else {
+                // Add parent route if not excluded (even with children)
+                absoluteRoutes.push({ path: fullPath, seoExclude: isExcluded });
+            }
         }
-        node.children.forEach(child => buildPaths(child, fullPath));
+        // Pass current exclusion status to children
+        node.children.forEach(child => buildPaths(child, fullPath, isExcluded));
     };
     routeTree.forEach(root => buildPaths(root));
     // Return only SEO-included routes

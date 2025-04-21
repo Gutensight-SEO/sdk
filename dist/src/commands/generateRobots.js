@@ -37,14 +37,13 @@ async function generateRobots() {
         paths.forEach(path => {
             robotsContent += `\nAllow: ${path}`;
         });
-        // Add crawl delay
-        robotsContent += `\nCrawl-delay: 10`;
         // Add Disallow for all other routes
-        robotsContent += `\nDisallow: *`;
+        robotsContent += `\n\nDisallow: *`;
         // Add Sitemap link
-        robotsContent += `\nSitemap: ${hostname}/sitemap.xml`;
+        robotsContent += `\n\nSitemap: ${hostname}/sitemap.xml`;
         const outputPath = path_1.default.resolve(process.cwd(), config.outputDir, 'robots.txt');
         await fs_extra_1.default.writeFile(outputPath, robotsContent.trim());
+        console.log('⚠️ You can customize the robots.txt file in the output directory.');
         console.log('✅ robots.txt generated successfully.');
     }
     catch (error) {

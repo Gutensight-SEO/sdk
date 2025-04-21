@@ -1,16 +1,20 @@
 User-agent: *
 Allow: /
+Allow: /
 Allow: /about
 Allow: /contact
 Allow: /v1/documentation
-Allow: /session/login
-Allow: /session/register
+Allow: /dashboard
 Allow: /dashboard
 Allow: /dashboard/profile
+Allow: /dashboard/setting
 Allow: /dashboard/setting/update-profile
+Allow: /dashboard/subscription
 Allow: /dashboard/subscription/list
 Allow: /dashboard/subscription/active
 Allow: /dashboard/subscription/api-keys
 Allow: /
-Disallow: /*
+
+Disallow: *
+
 Sitemap: https://gutensight-seo.netlify.app/sitemap.xml

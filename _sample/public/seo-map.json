@@ -12,6 +12,18 @@
     }
   },
   {
+    "route": "/",
+    "metadata": {
+      "title": "",
+      "description": "",
+      "body": "",
+      "keywords": [],
+      "headers": [],
+      "changefreq": "",
+      "priority": 0
+    }
+  },
+  {
     "route": "/about",
     "metadata": {
       "title": "",
@@ -48,19 +60,7 @@
     }
   },
   {
-    "route": "/session/login",
-    "metadata": {
-      "title": "",
-      "description": "",
-      "body": "",
-      "keywords": [],
-      "headers": [],
-      "changefreq": "",
-      "priority": 0
-    }
-  },
-  {
-    "route": "/session/register",
+    "route": "/dashboard",
     "metadata": {
       "title": "",
       "description": "",
@@ -96,7 +96,31 @@
     }
   },
   {
+    "route": "/dashboard/setting",
+    "metadata": {
+      "title": "",
+      "description": "",
+      "body": "",
+      "keywords": [],
+      "headers": [],
+      "changefreq": "",
+      "priority": 0
+    }
+  },
+  {
     "route": "/dashboard/setting/update-profile",
+    "metadata": {
+      "title": "",
+      "description": "",
+      "body": "",
+      "keywords": [],
+      "headers": [],
+      "changefreq": "",
+      "priority": 0
+    }
+  },
+  {
+    "route": "/dashboard/subscription",
     "metadata": {
       "title": "",
       "description": "",
