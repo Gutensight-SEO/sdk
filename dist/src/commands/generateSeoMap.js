@@ -11,7 +11,7 @@ const routerLoader_1 = require("../utils/routerLoader");
 async function generateSeoMap() {
     try {
         const config = await (0, configLoader_1.loadConfig)();
-        const { customOptions: { seoRules }, outputDir } = config;
+        const { customOptions: { seoRules }, outputDir, seoMapFile, htmlEntryFile } = config;
         // Get routes from the centralized utility
         const routes = await (0, routerLoader_1.getRoutesFromRouterFile)();
         // Filter out excluded routes
@@ -28,13 +28,13 @@ async function generateSeoMap() {
                 priority: 0
             },
         }));
-        const seoMapPath = path_1.default.resolve(process.cwd(), outputDir, 'seo-map.json');
+        const seoMapPath = path_1.default.resolve(process.cwd(), outputDir, seoMapFile);
         await fs_extra_1.default.writeJson(seoMapPath, seoMap, { spaces: 2 });
-        console.log('✅ seo-map.json generated successfully.');
+        console.log(`✅ ${seoMapFile} generated successfully.`);
         if (seoRules.injectSeoMap) {
-            const indexPath = path_1.default.resolve(process.cwd(), outputDir, 'index.html');
+            const indexPath = path_1.default.resolve(process.cwd(), htmlEntryFile);
             if (!fs_extra_1.default.existsSync(indexPath)) {
-                console.warn('index.html not found. Skipping SEO injection.');
+                console.warn('❌ index html file not found. Skipping SEO injection.');
                 return;
             }
             let indexContent = await fs_extra_1.default.readFile(indexPath, 'utf-8');
@@ -50,7 +50,7 @@ async function generateSeoMap() {
         }
     }
     catch (error) {
-        throw new Error(`${error.message ? error.message : error}`);
+        throw new Error(`❌ ${error.message ? error.message : error}`);
     }
 }
 //# sourceMappingURL=generateSeoMap.js.map

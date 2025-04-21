@@ -10,25 +10,36 @@ const generateSeoMap_1 = require("./generateSeoMap");
 const configLoader_1 = require("../utils/configLoader");
 async function compile() {
     try {
+        // Load the configuration
+        const config = await (0, configLoader_1.loadConfig)();
+        const { language } = config;
+        let configPath;
         // Check if the configuration file exists
-        const configPath = path_1.default.resolve(process.cwd(), 'seo.config.js');
-        const tsConfigPath = path_1.default.resolve(process.cwd(), 'seo.config.ts');
-        if (!fs_extra_1.default.existsSync(configPath) && !fs_extra_1.default.existsSync(tsConfigPath)) {
+        if (language === 'ts') {
+            configPath = path_1.default.resolve(process.cwd(), 'seo.config.ts');
+        }
+        else {
+            configPath = path_1.default.resolve(process.cwd(), 'seo.config.js');
+        }
+        if (!fs_extra_1.default.existsSync(configPath)) {
             console.error('Error: ❌ Configuration file not found. Please run `seo init` to initialize the project before running `seo compile`.');
             process.exit(1);
         }
-        // Load the configuration
-        const config = await (0, configLoader_1.loadConfig)();
+        // const configPath = path.resolve(process.cwd(), 'seo.config.js');
+        // const tsConfigPath = path.resolve(process.cwd(), 'seo.config.ts');
+        // if (!fs.existsSync(configPath) && !fs.existsSync(tsConfigPath)) {
+        //   console.error(
+        //     'Error: ❌ Configuration file not found. Please run `seo init` to initialize the project before running `seo compile`.'
+        //   );
+        //   process.exit(1);
+        // }
         const outputDir = path_1.default.resolve(process.cwd(), config.outputDir);
         // Ensure output directory exists
         await fs_extra_1.default.ensureDir(outputDir);
         try {
-            console.log('Generating seo-map.json...');
+            // console.log(`Generating SEO map file...`);
             await (0, generateSeoMap_1.generateSeoMap)();
-            // if (success){
-            //   return 'Compilation completed successfully.'
-            // }
-            console.log('✅ Compilation completed successfully.');
+            console.log("Update routes and metadata in the SEO map file!");
         }
         catch (genError) {
             console.error(genError.message);

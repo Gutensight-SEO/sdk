@@ -40,13 +40,10 @@ export async function compile() {
 
     try {
 
-      console.log('Generating seo-map.json...');
+      // console.log(`Generating SEO map file...`);
       await generateSeoMap();
 
-      // if (success){
-      //   return 'Compilation completed successfully.'
-      // }
-      console.log('✅ Compilation completed successfully.');
+      console.log("Update routes and metadata in the SEO map file!");
     } catch (genError: any) {
       console.error(genError.message);
       process.exit(1);

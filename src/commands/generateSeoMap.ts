@@ -6,7 +6,7 @@ import { getRoutesFromRouterFile } from '../utils/routerLoader';
 export async function generateSeoMap() {
   try {
     const config = await loadConfig();
-    const { customOptions: { seoRules}, outputDir, seoMapFile } = config;
+    const { customOptions: { seoRules}, outputDir, seoMapFile, htmlEntryFile } = config;
 
     // Get routes from the centralized utility
     const routes = await getRoutesFromRouterFile();
@@ -32,7 +32,7 @@ export async function generateSeoMap() {
     console.log(`✅ ${seoMapFile} generated successfully.`);
 
     if (seoRules.injectSeoMap) {
-      const indexPath = path.resolve(process.cwd(), outputDir, 'index.html');
+      const indexPath = path.resolve(process.cwd(), htmlEntryFile);
       if (!fs.existsSync(indexPath)) {
         console.warn('❌ index html file not found. Skipping SEO injection.');
         return;

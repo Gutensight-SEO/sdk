@@ -5,9 +5,9 @@ const defaultConfig = {
   analyticsDir: './gutensight-analytics',
   language: 'ts',
   seoMapFile: 'seo-map.json',
-  htmlEntryFile: './public/index.html',
+  htmlEntryFile: './index.html',
   router: {
-    path: './src/router.jsx', // Path to the router file
+    path: './src/navigation/Router/index.ts', // Path to the router file
     routeProperties: {
       title: 'title',
       seoExclude: 'seoExclude',
@@ -16,7 +16,7 @@ const defaultConfig = {
   },
   customOptions: {
     seoRules: {
-      injectSeoMap: false,      
+      injectSeoMap: true,      
     },
     sitemap: {
       hostname: process.env.SITE_URL || 'https://example.com',
