@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateSeoMap = exports.generateRobots = exports.generateSitemap = exports.analyzePages = exports.analyzePage = exports.compile = exports.init = exports.logout = exports.login = void 0;
+exports.generateSeoMap = exports.generateRobots = exports.generateSitemap = exports.analyzePages = exports.analyzePage = exports.build = exports.compile = exports.init = exports.logout = exports.login = void 0;
 var login_1 = require("./login");
 Object.defineProperty(exports, "login", { enumerable: true, get: function () { return login_1.login; } });
 var logout_1 = require("./logout");
@@ -9,6 +9,8 @@ var init_1 = require("./init");
 Object.defineProperty(exports, "init", { enumerable: true, get: function () { return init_1.init; } });
 var compile_1 = require("./compile");
 Object.defineProperty(exports, "compile", { enumerable: true, get: function () { return compile_1.compile; } });
+var build_1 = require("./build");
+Object.defineProperty(exports, "build", { enumerable: true, get: function () { return build_1.build; } });
 var analyzePage_1 = require("./analyzePage");
 Object.defineProperty(exports, "analyzePage", { enumerable: true, get: function () { return analyzePage_1.analyzePage; } });
 var analyzePages_1 = require("./analyzePages");

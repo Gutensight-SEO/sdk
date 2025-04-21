@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { login, logout, init, compile, analyzePage, analyzePages, generateSitemap, generateRobots, generateSeoMap } from '../src/commands';
+import { login, logout, init, compile, analyzePage, analyzePages, build } from '../src/commands';
 
 const program = new Command();
 
@@ -30,58 +30,46 @@ program
 
 program
   .command('compile')
-  .description('Compile SEO files (sitemap.xml, robots.txt, seo-map.json)')
+  .description('Compile SEO routes and metadata into seo-map.json file')
   .action(compile);
-
-program
-  .command('page <path>')
-    //   .command('page')
-    //   .argument('<url>', 'Page URL to analyze (e.g., /about)')
-  .description('Analyze specific page')
-  .action(analyzePage);
-
+  
 program
   .command('pages')
   .description('Analyze all pages')
   .action(analyzePages);
 
 program
-  .command('sitemap')
-  .description('Generate sitemap.xml')
-  .action(generateSitemap);
+  .command('page <path>')
+    //   .command('page')
+    //   .argument('<url>', 'Page URL to analyze (e.g., /about)')
+  .description('Analyze specific page by specifying the page route as present in your seo-map file e.g "/about"')
+  .action(analyzePage);
 
 program
-  .command('robots')
-  .description('Generate robots.txt')
-  .action(generateRobots);
-
-program
-  .command('seomap')
+  .command('build')
   .description('Build and inject SEO into index.html')
-  .action(generateSeoMap);
+  .action(build);
 
 
 // Add examples
 program.addHelpText('after', `
     Commands Summary:
-      login     Authentication command
-      init      Initialize project command
-      seomap    SEO Map file Generation command
-      sitemap   Sitemap file Generation command
-      robots    Robots file Generation command
-      page      Single-Page SEO analysis command
-      pages     SEO analysis for all pages command
-      compile   Compilation and optimization command
+      login           Authentication command
+      logout          Remove authentication command
+      init            Initialize project command
+      compile         Search and compile all SEO related routes and metadata command
+      pages           SEO analysis for all pages command
+      page            Single-Page SEO analysis command
+      build           Build SEO optimization files (sitemap.xml & robots.txt) command
     
     Examples:
       $ seo login                     # Login with your API keys (one time)
+      $ seo logout                    # Logout (remove) your API keys
       $ seo init                      # Initialize SEO configuration (for every new project)
-      $ seo compile                   # Compile SEO files (generate and build seo-optimization files; sitemap.xml, robots.txt, seo-map.json)
-      $ seo pages             # Analyze all pages (after successful compilation)
-      $ seo page /about       # Analyze specific page (analyze single page)
-      $ seo seomap                 # Build and inject SEO into index.html file if "injectSeoMap" is set to true
-      $ seo sitemap          # Generate sitemap.xml (generate the sitemap for the project)
-      $ seo robots           # Generate robots.txt (generate the robots.txt file for the project)
+      $ seo compile                   # Compile SEO routes and metadata (generate file - seo-map.json)
+      $ seo pages                     # Analyze all pages (after successful compilation)
+      $ seo page /about               # Analyze specific page (analyze single page)
+      $ seo build                     # Generate sitemap.xml and robots.txt files for the project
     
     For more information, visit: https://gutensight-seo.netlify.app/v1/documentation
 `);
