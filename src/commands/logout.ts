@@ -5,8 +5,8 @@ const config = new Configstore('gutensight-seo');
 export function logout() {
   try {
     config.delete('apiKey');
-    console.log('Logged out successfully.');
+    console.log('✅ Logged out successfully.');
   } catch (error: any) {
-    console.error('Error during logout:', error.message);
+    console.error('❌ Error during logout:', error.message);
   }
 }
