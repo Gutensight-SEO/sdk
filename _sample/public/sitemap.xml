@@ -5,9 +5,6 @@
     <loc>https://gutensight-seo.netlify.app/</loc>
   </url>
   <url>
-    <loc>https://gutensight-seo.netlify.app/</loc>
-  </url>
-  <url>
     <loc>https://gutensight-seo.netlify.app/about</loc>
   </url>
   <url>
@@ -20,19 +17,10 @@
     <loc>https://gutensight-seo.netlify.app/dashboard</loc>
   </url>
   <url>
-    <loc>https://gutensight-seo.netlify.app/dashboard</loc>
-  </url>
-  <url>
     <loc>https://gutensight-seo.netlify.app/dashboard/profile</loc>
   </url>
   <url>
-    <loc>https://gutensight-seo.netlify.app/dashboard/setting</loc>
-  </url>
-  <url>
     <loc>https://gutensight-seo.netlify.app/dashboard/setting/update-profile</loc>
-  </url>
-  <url>
-    <loc>https://gutensight-seo.netlify.app/dashboard/subscription</loc>
   </url>
   <url>
     <loc>https://gutensight-seo.netlify.app/dashboard/subscription/list</loc>

@@ -54,30 +54,12 @@ async function parseRoutes(entryFilePath) {
     });
     const routeTree = [];
     const nodeMap = new WeakMap();
-    const excludedNodes = new WeakSet();
     (0, traverse_1.default)(ast, {
         ObjectExpression(path) {
             const obj = path.node;
-            // Check if any ancestor is excluded
-            let currentPath = path;
-            let hasExcludedParent = false;
-            while (currentPath) {
-                if (currentPath.isObjectExpression() && excludedNodes.has(currentPath.node)) {
-                    hasExcludedParent = true;
-                    break;
-                }
-                currentPath = currentPath.parentPath;
-            }
-            if (hasExcludedParent)
-                return;
             // Extract metadata
             const pathStr = extractStringProperty(obj, 'path')?.replace(/^\//, '') ?? '';
             const seoExclude = extractBooleanProperty(obj, 'seoExclude');
-            // Skip excluded routes and mark for descendant exclusion
-            if (seoExclude) {
-                excludedNodes.add(obj);
-                return;
-            }
             // Initialize RouteNode
             const route = { path: pathStr, seoExclude, children: [] };
             nodeMap.set(obj, route);
@@ -86,7 +68,7 @@ async function parseRoutes(entryFilePath) {
             if (parent?.isArrayExpression() &&
                 parent.parentPath?.isObjectProperty() &&
                 t.isIdentifier(parent.parentPath.node.key, { name: 'children' })) {
-                // Attach to parent RouteNode
+                // We are inside a children array; attach to parent RouteNode
                 const grandParentObj = parent.parentPath.parentPath;
                 if (grandParentObj?.isObjectExpression()) {
                     const parentRoute = nodeMap.get(grandParentObj.node);
@@ -102,14 +84,15 @@ async function parseRoutes(entryFilePath) {
     // Flatten tree into absolute paths
     const absoluteRoutes = [];
     const buildPaths = (node, base = '') => {
-        const fullPath = node.path ? `${base}/${node.path}`.replace(/\/\/+/g, '/').replace(/\/$/g, '') : base || '/';
+        const fullPath = node.path ? `${base}/${node.path}`.replace(/\/\/+/, '/').replace(/\/$/, '') : base || '/';
         if (node.children.length === 0) {
             absoluteRoutes.push({ path: fullPath || '/', seoExclude: node.seoExclude });
         }
         node.children.forEach(child => buildPaths(child, fullPath));
     };
     routeTree.forEach(root => buildPaths(root));
-    return absoluteRoutes;
+    // Return only SEO-included routes
+    return absoluteRoutes.filter(r => !r.seoExclude);
 }
 /**
  * Safely extracts a string property from an ObjectExpression.
@@ -133,4 +116,4 @@ function extractBooleanProperty(node, propertyName) {
     }
     return false;
 }
-//# sourceMappingURL=routeParser.js.map
+//# sourceMappingURL=routeParser%20copy.js.map
