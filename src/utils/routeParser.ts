@@ -68,7 +68,9 @@ export async function parseRoutes(
       : base || '/';
 
     if (!isExcluded) {
-      if (node.children.length === 0) {
+      if (node.path === "") { // Skip empty path index routes
+          // No-op: Avoid adding empty path children as separate entries
+      } else if (node.children.length === 0) {
         absoluteRoutes.push({ path: fullPath, seoExclude: isExcluded });
       } else {
         // Add parent route if not excluded (even with children)
