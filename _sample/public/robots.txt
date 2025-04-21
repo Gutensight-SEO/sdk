@@ -3,6 +3,8 @@ Allow: /
 Allow: /about
 Allow: /contact
 Allow: /v1/documentation
+Allow: /session/login
+Allow: /session/register
 Allow: /dashboard
 Allow: /dashboard/profile
 Allow: /dashboard/setting/update-profile

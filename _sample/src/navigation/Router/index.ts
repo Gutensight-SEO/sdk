@@ -58,7 +58,7 @@ const router: RouteObjectWithSEO[] = [
   },
   {
     path: "session",
-    seoExclude: true,
+    // seoExclude: true,
     element: createElement(SessionLayout),
     children: [
       {

@@ -1,26 +1,69 @@
 import fs from 'fs-extra';
 import path from 'path';
+import axios from 'axios';
 import { loadConfig } from '../utils/configLoader';
+import Configstore from 'configstore';
+
+const config = new Configstore('gutensight-seo');
 
 export async function analyzePages() {
   try {
-    const config = await loadConfig();
-    const seoMapPath = path.resolve(process.cwd(), config.outputDir, 'seo-map.json');
+    const apiKey = config.get('apiKey');
+    if (!apiKey) {
+      throw new Error('API key not found. Please login first.');
+    }
+
+    const userConfig = await loadConfig();
+    const seoMapPath = path.resolve(
+      process.cwd(), 
+      userConfig.outputDir, 
+      userConfig.seoMapFile || 'seo-map.json'
+    );
 
     if (!fs.existsSync(seoMapPath)) {
-      throw new Error('seo-map.json not found. Please run `seo compile` first.');
+      throw new Error('SEO map file not found. Please run `seo compile` first.');
     }
 
     const seoMap = await fs.readJson(seoMapPath);
 
-    console.log('SEO Analysis for all pages:');
-    seoMap.forEach((entry: any) => {
-      console.log(`Route: ${entry.route}`);
-      console.log(`  Title: ${entry.metadata.title || 'Not specified'}`);
-      console.log(`  Description: ${entry.metadata.description || 'Not specified'}`);
-      console.log(`  Keywords: ${entry.metadata.keywords.join(', ') || 'Not specified'}`);
-    });
+    const pages = seoMap.map((entry: { metadata: { title: any; description: any; headers: any; keywords: any; body: any; }; route: any; }) => ({
+      title: entry.metadata.title || 'Not specified',
+      description: entry.metadata.description || 'Not specified',
+      headers: entry.metadata.headers || [],
+      keywords: entry.metadata.keywords || [],
+      url: entry.route,
+      content: entry.metadata.body || '',
+      mobile_friendly: true, // Default assumption
+      structured_data: false, // Default assumption
+      status_code: 200 // Default assumption
+    }));
+
+    const response = await axios.post(
+      'http://localhost:10000/api/v1/analyze/batch',
+      // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/batch',
+      {
+        apiKey,
+        pages
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          // 'x-api-key': apiKey
+        }
+      }
+    );
+
+    const analyticsDir = path.resolve(process.cwd(), userConfig.analyticsDir);
+    const timestamp = Date.now();
+    const outputPath = path.join(analyticsDir, `analysis-${timestamp}.json`);
+    
+    await fs.ensureDir(analyticsDir);
+    await fs.writeJson(outputPath, response.data);
+
+    console.log(`✅ Analysis completed successfully. Results saved to: ${outputPath}`);
+
   } catch (error: any) {
-    console.error('Error analyzing pages:', error.message);
+    console.error('❌ Error analyzing pages:', error.message);
+    process.exit(1);
   }
 }

@@ -1,29 +1,82 @@
 import fs from 'fs-extra';
 import path from 'path';
+import axios from 'axios';
 import { loadConfig } from '../utils/configLoader';
+import Configstore from 'configstore';
+
+const config = new Configstore('gutensight-seo');
 
 export async function analyzePage(pagePath: string) {
   try {
-    const config = await loadConfig();
-    const seoMapPath = path.resolve(process.cwd(), config.outputDir, 'seo-map.json');
+    const apiKey = config.get('apiKey');
+    if (!apiKey) {
+      throw new Error('❌ API key not found. Please login first.');
+    }
+
+    const userConfig = await loadConfig();
+    const seoMapPath = path.resolve(
+      process.cwd(),
+      userConfig.outputDir,
+      userConfig.seoMapFile || 'seo-map.json'
+    );
 
     if (!fs.existsSync(seoMapPath)) {
-      throw new Error('seo-map.json not found. Please run `seo compile` first.');
+      throw new Error('❌ SEO map file not found. Please run `seo compile` first.');
     }
 
     const seoMap = await fs.readJson(seoMapPath);
-    const pageData = seoMap.find((entry: any) => entry.route === pagePath);
+    const pageEntry = seoMap.find((entry: any) => entry.route === pagePath);
 
-    if (!pageData) {
-      console.log(`No SEO data found for the page: ${pagePath}`);
-      return;
+    if (!pageEntry) {
+      throw new Error(`❌ No SEO data found for route: ${pagePath}`);
     }
 
-    console.log(`SEO Analysis for ${pagePath}:`);
-    console.log(`Title: ${pageData.metadata.title || 'Not specified'}`);
-    console.log(`Description: ${pageData.metadata.description || 'Not specified'}`);
-    console.log(`Keywords: ${pageData.metadata.keywords.join(', ') || 'Not specified'}`);
+    const pageData = {
+      title: pageEntry.metadata.title || '',
+      description: pageEntry.metadata.description || '',
+      headers: pageEntry.metadata.headers || [],
+      keywords: pageEntry.metadata.keywords || [],
+      url: pagePath,
+      content: pageEntry.metadata.body || '',
+      mobile_friendly: true,
+      structured_data: false,
+      status_code: 200
+    };
+
+    const response = await axios.post(
+      'https://gs-server-hzfd.onrender.com/api/v1/analyze/page',
+      {
+        apiKey,
+        content: pageData
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+
+    const analyticsDir = path.resolve(process.cwd(), userConfig.analyticsDir);
+    const outputPath = path.join(analyticsDir, 'page-analyses.json');
+    
+    await fs.ensureDir(analyticsDir);
+
+    let existingData = [];
+    if (fs.existsSync(outputPath)) {
+      existingData = await fs.readJson(outputPath);
+    }
+
+    // Remove existing entry if present
+    const filteredData = existingData.filter((item: any) => item.url !== pagePath);
+    filteredData.push(response.data);
+    
+    await fs.writeJson(outputPath, filteredData, { spaces: 2 });
+
+    console.log(`✅ Page analysis completed for ${pagePath}`);
+    console.log(`📊 Results updated in: ${outputPath}`);
+
   } catch (error: any) {
-    console.error('Error analyzing page:', error.message);
+    console.error('❌ Error analyzing page:', error.message);
+    process.exit(1);
   }
 }

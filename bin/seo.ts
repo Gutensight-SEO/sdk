@@ -32,11 +32,16 @@ program
   .command('compile')
   .description('Compile SEO routes and metadata into seo-map.json file')
   .action(compile);
+
+program
+  .command('build')
+  .description('Build and inject SEO into index.html')
+  .action(build);
   
 program
-  .command('pages')
-  .description('Analyze all pages')
-  .action(analyzePages);
+.command('pages')
+.description('Analyze all pages')
+.action(analyzePages);
 
 program
   .command('page <path>')
@@ -44,12 +49,7 @@ program
     //   .argument('<url>', 'Page URL to analyze (e.g., /about)')
   .description('Analyze specific page by specifying the page route as present in your seo-map file e.g "/about"')
   .action(analyzePage);
-
-program
-  .command('build')
-  .description('Build and inject SEO into index.html')
-  .action(build);
-
+  
 
 // Add examples
 program.addHelpText('after', `

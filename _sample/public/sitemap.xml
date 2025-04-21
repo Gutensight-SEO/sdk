@@ -14,6 +14,12 @@
     <loc>https://gutensight-seo.netlify.app/v1/documentation</loc>
   </url>
   <url>
+    <loc>https://gutensight-seo.netlify.app/session/login</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/session/register</loc>
+  </url>
+  <url>
     <loc>https://gutensight-seo.netlify.app/dashboard</loc>
   </url>
   <url>
