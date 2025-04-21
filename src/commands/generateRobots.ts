@@ -41,8 +41,6 @@ export async function generateRobots() {
     paths.forEach(path => {
       robotsContent += `\nAllow: ${path}`;
     });
-    // Add crawl delay
-    robotsContent += `\nCrawl-delay: 10`;
 
     // Add Disallow for all other routes
     robotsContent += `\nDisallow: *`;
