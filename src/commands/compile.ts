@@ -5,18 +5,34 @@ import { loadConfig } from '../utils/configLoader';
 
 export async function compile() {
   try {
+    // Load the configuration
+    const config = await loadConfig();
+    const { language } = config;
+
+    let configPath;
+
     // Check if the configuration file exists
-    const configPath = path.resolve(process.cwd(), 'seo.config.js');
-    const tsConfigPath = path.resolve(process.cwd(), 'seo.config.ts');
-    if (!fs.existsSync(configPath) && !fs.existsSync(tsConfigPath)) {
+    if (language === 'ts') {
+      configPath = path.resolve(process.cwd(), 'seo.config.ts');
+    } else {
+      configPath = path.resolve(process.cwd(), 'seo.config.js');
+    }
+    if (!fs.existsSync(configPath)) {
       console.error(
         'Error: ❌ Configuration file not found. Please run `seo init` to initialize the project before running `seo compile`.'
       );
       process.exit(1);
     }
 
-    // Load the configuration
-    const config = await loadConfig();
+    // const configPath = path.resolve(process.cwd(), 'seo.config.js');
+    // const tsConfigPath = path.resolve(process.cwd(), 'seo.config.ts');
+    // if (!fs.existsSync(configPath) && !fs.existsSync(tsConfigPath)) {
+    //   console.error(
+    //     'Error: ❌ Configuration file not found. Please run `seo init` to initialize the project before running `seo compile`.'
+    //   );
+    //   process.exit(1);
+    // }
+
     const outputDir = path.resolve(process.cwd(), config.outputDir);
 
     // Ensure output directory exists

@@ -11,7 +11,7 @@ const defaultConfig = {
   seoMapFile: 'seo-map.json',
   htmlEntryFile: './public/index.html',
   router: {
-    path: './src/router.jsx', // Path to the router file
+    path: './src/router.tsx', // Path to the router file
     routeProperties: {
       title: 'title',
       seoExclude: 'seoExclude',
@@ -42,7 +42,7 @@ const JS_TEMPLATE = `require('dotenv').config();
 module.exports = {
   outputDir: './public',
   analyticsDir: './gutensight-analytics',
-  language: 'ts',
+  language: 'js',
   seoMapFile: 'seo-map.json',
   htmlEntryFile: './public/index.html',
   router: {

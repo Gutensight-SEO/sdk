@@ -6,7 +6,7 @@ import { getRoutesFromRouterFile } from '../utils/routerLoader';
 export async function generateSeoMap() {
   try {
     const config = await loadConfig();
-    const { customOptions: { seoRules}, outputDir } = config;
+    const { customOptions: { seoRules}, outputDir, seoMapFile } = config;
 
     // Get routes from the centralized utility
     const routes = await getRoutesFromRouterFile();
@@ -27,14 +27,14 @@ export async function generateSeoMap() {
       },
     }));
 
-    const seoMapPath = path.resolve(process.cwd(), outputDir, 'seo-map.json');
+    const seoMapPath = path.resolve(process.cwd(), outputDir, seoMapFile);
     await fs.writeJson(seoMapPath, seoMap, { spaces: 2 });
-    console.log('✅ seo-map.json generated successfully.');
+    console.log(`✅ ${seoMapFile} generated successfully.`);
 
     if (seoRules.injectSeoMap) {
       const indexPath = path.resolve(process.cwd(), outputDir, 'index.html');
       if (!fs.existsSync(indexPath)) {
-        console.warn('index.html not found. Skipping SEO injection.');
+        console.warn('❌ index html file not found. Skipping SEO injection.');
         return;
       }
 
@@ -51,6 +51,6 @@ export async function generateSeoMap() {
       console.log('✅ SEO metadata injected into index.html.');
     }
   } catch (error: any) {
-    throw new Error(`${error.message ? error.message : error}`);
+    throw new Error(`❌ ${error.message ? error.message : error}`);
   }
 }
