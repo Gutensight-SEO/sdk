@@ -6,15 +6,15 @@ import { getRoutesFromRouterFile } from '../utils/routerLoader';
 // export async function generateRobots() {
 //   try {
 //     const config = await loadConfig();
-//     const { siteUrl } = config;
+//     const { hostname } = config;
 
-//     if (!siteUrl) {
-//       throw new Error('siteUrl is missing in the configuration.');
+//     if (!hostname) {
+//       throw new Error('hostname is missing in the configuration.');
 //     }
 
 //     const robotsContent = `User-agent: *
 // Allow: /
-// Sitemap: ${siteUrl}/sitemap.xml`;
+// Sitemap: ${hostname}/sitemap.xml`;
 
 //     const outputPath = path.resolve(process.cwd(), config.outputDir, 'robots.txt');
 //     await fs.writeFile(outputPath, robotsContent.trim());
@@ -30,7 +30,7 @@ import { getRoutesFromRouterFile } from '../utils/routerLoader';
 export async function generateRobots() {
   try {
     const config = await loadConfig();
-    const { siteUrl } = config;
+    const { customOptions: {sitemap: {hostname}} } = config;
     const routes = await getRoutesFromRouterFile();
 
     // Get excluded routes
@@ -47,7 +47,7 @@ Allow: /`;
       });
     }
 
-    robotsContent += `\nSitemap: ${siteUrl}/sitemap.xml`;
+    robotsContent += `\nSitemap: ${hostname}/sitemap.xml`;
 
     const outputPath = path.resolve(process.cwd(), config.outputDir, 'robots.txt');
     await fs.writeFile(outputPath, robotsContent.trim());

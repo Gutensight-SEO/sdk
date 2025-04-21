@@ -11,11 +11,6 @@ async function loadConfig() {
     // // Load environment variables from .env file
     dotenv_1.default.config();
     try {
-        const envConfig = {
-            apiKey: process.env.GUTENSEO_API_KEY || '',
-            mlEndpoint: 'https://api.gutenseo.com/v1/analyze',
-            siteUrl: process.env.SITE_URL || ''
-        };
         const possiblePaths = [
             path_1.default.resolve(process.cwd(), 'seo.config.js'),
             path_1.default.resolve(process.cwd(), 'seo.config.ts'),
@@ -30,7 +25,7 @@ async function loadConfig() {
             }
         }
         if (!configPath) {
-            throw new Error('Configuration file not found. Please ensure `seo.config.js` or `seo.config.ts` exists in the project root or run `seo init` to create one.');
+            throw new Error('❌ Configuration file not found. Please ensure `seo.config.js` or `seo.config.ts` exists in the project root or run `seo init` to create one.');
         }
         let config;
         try {
@@ -45,14 +40,13 @@ async function loadConfig() {
         }
         const mergedConfig = {
             ...(config.default || config),
-            ...envConfig,
             sitemap: {
                 ...(config.default || config).sitemap,
-                hostname: envConfig.siteUrl || (config.default || config).sitemap?.hostname
+                hostname: (config.default || config).sitemap?.hostname
             }
         };
         if (!mergedConfig.router?.path || !mergedConfig.outputDir) {
-            throw new Error('Invalid configuration file. Ensure `router` and `outputDir` are defined.');
+            throw new Error('❌ Invalid configuration file. Ensure `router` and `outputDir` are defined.');
         }
         // Add .tsx, .ts, .jsx, .js extensions if not specified
         if (!path_1.default.extname(config.router.path)) {

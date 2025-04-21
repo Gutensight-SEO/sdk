@@ -1,6 +1,5 @@
 interface RouterConfig {
     path: string;
-    type: string;
     routeProperties: {
         title: string;
         seoExclude: string;
@@ -9,12 +8,9 @@ interface RouterConfig {
 }
 export interface SeoConfig {
     outputDir: string;
-    apiKey: string;
-    mlEndpoint: string;
     analyticsDir: string;
     language: string;
     seoMapFile: string;
-    siteUrl: string;
     htmlEntryFile: string;
     router: RouterConfig;
     customOptions: {

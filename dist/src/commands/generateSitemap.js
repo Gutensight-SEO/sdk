@@ -11,7 +11,7 @@ const routerLoader_1 = require("../utils/routerLoader");
 async function generateSitemap() {
     try {
         const config = await (0, configLoader_1.loadConfig)();
-        const { siteUrl, outputDir } = config;
+        const { customOptions: { sitemap: { hostname } }, outputDir } = config;
         // Get routes from the centralized utility
         const routes = await (0, routerLoader_1.getRoutesFromRouterFile)();
         // Filter out excluded routes
@@ -21,7 +21,7 @@ async function generateSitemap() {
   ${allowedRoutes
             .map((route) => `
   <url>
-    <loc>${siteUrl}${route}</loc>
+    <loc>${hostname}${route}</loc>
   </url>`)
             .join('')}
 </urlset>`;

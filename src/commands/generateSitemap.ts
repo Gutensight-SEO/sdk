@@ -6,7 +6,7 @@ import { getRoutesFromRouterFile } from '../utils/routerLoader';
 export async function generateSitemap() {
   try {
     const config = await loadConfig();
-    const { siteUrl, outputDir } = config;
+    const { customOptions: {sitemap: {hostname}}, outputDir } = config;
 
     // Get routes from the centralized utility
     const routes = await getRoutesFromRouterFile();
@@ -20,7 +20,7 @@ export async function generateSitemap() {
     .map(
       (route: string) => `
   <url>
-    <loc>${siteUrl}${route}</loc>
+    <loc>${hostname}${route}</loc>
   </url>`
     )
     .join('')}

@@ -5,7 +5,6 @@ import path from 'path';
 
 interface RouterConfig {
   path: string;
-  type: string;
   routeProperties: {
     title: string;
     seoExclude: string;
@@ -15,12 +14,9 @@ interface RouterConfig {
 
 export interface SeoConfig {
   outputDir: string;
-  apiKey: string;
-  mlEndpoint: string;
   analyticsDir: string;
   language: string;
   seoMapFile: string;
-  siteUrl: string;
   htmlEntryFile: string;
   router: RouterConfig;
   customOptions: {
@@ -44,19 +40,14 @@ export async function loadConfig(): Promise<SeoConfig> {
   // // Load environment variables from .env file
   dotenv.config();
   
-  try {
-    const envConfig = {
-      apiKey: process.env.GUTENSEO_API_KEY || '',
-      mlEndpoint: 'https://api.gutenseo.com/v1/analyze',
-      siteUrl: process.env.SITE_URL || ''
-    };
-    
+  try {    
     const possiblePaths = [
       path.resolve(process.cwd(), 'seo.config.js'),
       path.resolve(process.cwd(), 'seo.config.ts'),
       path.resolve(process.cwd(), '..', 'seo.config.js'),
       path.resolve(process.cwd(), '..', 'seo.config.ts'),
     ];
+
     let configPath: string | undefined;
     for (const p of possiblePaths) {
       if (fs.existsSync(p)) {
@@ -66,7 +57,7 @@ export async function loadConfig(): Promise<SeoConfig> {
     }
     if (!configPath) {
       throw new Error(
-        'Configuration file not found. Please ensure `seo.config.js` or `seo.config.ts` exists in the project root or run `seo init` to create one.'
+        '❌ Configuration file not found. Please ensure `seo.config.js` or `seo.config.ts` exists in the project root or run `seo init` to create one.'
       );
     }
 
@@ -83,15 +74,14 @@ export async function loadConfig(): Promise<SeoConfig> {
 
     const mergedConfig: SeoConfig = {
       ...(config.default || config),
-      ...envConfig,
       sitemap: {
         ...(config.default || config).sitemap,
-        hostname: envConfig.siteUrl || (config.default || config).sitemap?.hostname
+        hostname: (config.default || config).sitemap?.hostname
       }
     }
 
     if (!mergedConfig.router?.path || !mergedConfig.outputDir) {
-      throw new Error('Invalid configuration file. Ensure `router` and `outputDir` are defined.');
+      throw new Error('❌ Invalid configuration file. Ensure `router` and `outputDir` are defined.');
     }
 
     // Add .tsx, .ts, .jsx, .js extensions if not specified

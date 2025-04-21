@@ -11,13 +11,13 @@ const routerLoader_1 = require("../utils/routerLoader");
 // export async function generateRobots() {
 //   try {
 //     const config = await loadConfig();
-//     const { siteUrl } = config;
-//     if (!siteUrl) {
-//       throw new Error('siteUrl is missing in the configuration.');
+//     const { hostname } = config;
+//     if (!hostname) {
+//       throw new Error('hostname is missing in the configuration.');
 //     }
 //     const robotsContent = `User-agent: *
 // Allow: /
-// Sitemap: ${siteUrl}/sitemap.xml`;
+// Sitemap: ${hostname}/sitemap.xml`;
 //     const outputPath = path.resolve(process.cwd(), config.outputDir, 'robots.txt');
 //     await fs.writeFile(outputPath, robotsContent.trim());
 //     console.log('robots.txt generated successfully.');
@@ -29,7 +29,7 @@ const routerLoader_1 = require("../utils/routerLoader");
 async function generateRobots() {
     try {
         const config = await (0, configLoader_1.loadConfig)();
-        const { siteUrl } = config;
+        const { customOptions: { sitemap: { hostname } } } = config;
         const routes = await (0, routerLoader_1.getRoutesFromRouterFile)();
         // Get excluded routes
         const excludedRoutes = routes.filter(route => route.seoExclude).map(route => route.path);
@@ -42,7 +42,7 @@ Allow: /`;
                 robotsContent += `Disallow: ${route}\n`;
             });
         }
-        robotsContent += `\nSitemap: ${siteUrl}/sitemap.xml`;
+        robotsContent += `\nSitemap: ${hostname}/sitemap.xml`;
         const outputPath = path_1.default.resolve(process.cwd(), config.outputDir, 'robots.txt');
         await fs_extra_1.default.writeFile(outputPath, robotsContent.trim());
         console.log('robots.txt generated successfully.');

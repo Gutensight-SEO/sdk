@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://gutensight-seo.netlify.app/</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/about</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/contact</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/v1/documentation</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/session/login</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/session/register</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/dashboard</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/dashboard/profile</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/dashboard/setting/update-profile</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/dashboard/subscription/list</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/dashboard/subscription/active</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/dashboard/subscription/api-keys</loc>
+  </url>
+  <url>
+    <loc>https://gutensight-seo.netlify.app/</loc>
+  </url>
+</urlset>

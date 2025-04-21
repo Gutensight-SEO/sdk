@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gutensight-seo.netlify.app/sitemap.xml
