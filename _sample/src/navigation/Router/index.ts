@@ -28,8 +28,8 @@ const ApiKeysPage = Loadable(lazy(() => import("../../pages/Dashboard/Subscripti
 // const PaymentPage = Loadable(lazy(() => import("../../pages/Dashboard/Subscription/Payment/index.tsx")));
 
 type RouteObjectWithSEO = RouteObject & {
-  // seoExclude?: boolean;
-  // children?: RouteObjectWithSEO[];
+  seoExclude?: boolean;
+  children?: RouteObjectWithSEO[];
 };
 
 const router: RouteObjectWithSEO[] = [

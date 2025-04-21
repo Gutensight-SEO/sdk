@@ -28,7 +28,7 @@ export async function generateSitemap() {
 
     const outputPath = path.resolve(process.cwd(), outputDir, 'sitemap.xml');
     await fs.writeFile(outputPath, sitemapContent.trim());
-    console.log('sitemap.xml generated successfully.');
+    console.log('✅ sitemap.xml generated successfully.');
   } catch (error: any) {
     throw new Error(`❌ ${error.message ? error.message : error}`);
   }
