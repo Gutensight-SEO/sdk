@@ -32,6 +32,9 @@ export async function login() {
       console.error(`❌ ${response.data.error}`);
     }
   } catch (error: any) {
-    console.error('❌ Error during login:', error.message);
+    if (error.message == "Request failed with status code 400") console.error('❌ Error during login:', "API key is missing");
+    else if (error.message == "Request failed with status code 404") console.error('❌ Error during login:', "Invalid API key");
+    else if (error.message == "Request failed with status code 401") console.error('❌ Error during login:', "Quota Exceeded");
+    else console.error('❌ Error occured during login. Try again later');
   }
 }

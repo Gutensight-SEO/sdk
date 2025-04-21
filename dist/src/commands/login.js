@@ -24,7 +24,7 @@ async function login() {
         }
         console.log("Authenticating...");
         const response = await axios_1.default.post('http://localhost:10000/api/v1/analyze/api-key', { apiKey });
-        // const response = await axios.post('https://gs-server-hzfd.onrender.com/api/v1/api-key', { apiKey });
+        // const response = await axios.post('https://gs-server-hzfd.onrender.com/api/v1/analyze/api-key', { apiKey });
         console.log("Response gotten:", response.data);
         if (response.data.success) {
             config.set('apiKey', apiKey);
@@ -35,7 +35,14 @@ async function login() {
         }
     }
     catch (error) {
-        console.error('❌ Error during login:', error.message);
+        if (error.message == "Request failed with status code 400")
+            console.error('❌ Error during login:', "API key is missing");
+        else if (error.message == "Request failed with status code 404")
+            console.error('❌ Error during login:', "Invalid API key");
+        else if (error.message == "Request failed with status code 401")
+            console.error('❌ Error during login:', "Quota Exceeded");
+        else
+            console.error('❌ Error occured during login. Try again later');
     }
 }
 //# sourceMappingURL=login.js.map
