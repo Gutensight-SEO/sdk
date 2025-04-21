@@ -41,9 +41,13 @@ export async function generateRobots() {
     paths.forEach(path => {
       robotsContent += `\nAllow: ${path}`;
     });
-    // Add Disallow for all other routes
-    robotsContent += `\nDisallow: /*`;
+    // Add crawl delay
+    robotsContent += `\nCrawl-delay: 10`;
 
+    // Add Disallow for all other routes
+    robotsContent += `\nDisallow: *`;
+
+    // Add Sitemap link
     robotsContent += `\nSitemap: ${hostname}/sitemap.xml`;
 
     const outputPath = path.resolve(process.cwd(), config.outputDir, 'robots.txt');

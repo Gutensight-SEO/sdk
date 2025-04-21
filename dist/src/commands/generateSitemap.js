@@ -27,7 +27,7 @@ async function generateSitemap() {
 </urlset>`;
         const outputPath = path_1.default.resolve(process.cwd(), outputDir, 'sitemap.xml');
         await fs_extra_1.default.writeFile(outputPath, sitemapContent.trim());
-        console.log('sitemap.xml generated successfully.');
+        console.log('✅ sitemap.xml generated successfully.');
     }
     catch (error) {
         throw new Error(`❌ ${error.message ? error.message : error}`);

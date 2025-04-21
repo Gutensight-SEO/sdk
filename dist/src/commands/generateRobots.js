@@ -31,29 +31,21 @@ async function generateRobots() {
         const config = await (0, configLoader_1.loadConfig)();
         const { customOptions: { sitemap: { hostname } } } = config;
         const routes = await (0, routerLoader_1.getRoutesFromRouterFile)();
-        // console.log("ROUTES in robots gen file:", {routes})
-        // Get excluded routes
-        // const excludedRoutes = routes.filter(route => route.seoExclude).map(route => route.path);
         const paths = routes.map(route => route.path);
-        console.log("PATHS:", { paths });
         let robotsContent = `User-agent: *`;
         // Add Allow for all paths
         paths.forEach(path => {
             robotsContent += `\nAllow: ${path}`;
         });
+        // Add crawl delay
+        robotsContent += `\nCrawl-delay: 10`;
         // Add Disallow for all other routes
-        robotsContent += `\nDisallow: /*`;
-        // // Add Disallow for excluded routes
-        // if (excludedRoutes.length > 0) {
-        //   robotsContent += `\n\n# Excluded Routes\n`;
-        //   excludedRoutes.forEach(route => {
-        //     robotsContent += `Disallow: ${route}\n`;
-        //   });
-        // }    
+        robotsContent += `\nDisallow: *`;
+        // Add Sitemap link
         robotsContent += `\nSitemap: ${hostname}/sitemap.xml`;
         const outputPath = path_1.default.resolve(process.cwd(), config.outputDir, 'robots.txt');
         await fs_extra_1.default.writeFile(outputPath, robotsContent.trim());
-        console.log('robots.txt generated successfully.');
+        console.log('✅ robots.txt generated successfully.');
     }
     catch (error) {
         throw new Error(`❌ ${error.message ? error.message : error}`);
