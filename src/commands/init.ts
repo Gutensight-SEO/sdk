@@ -11,7 +11,7 @@ const defaultConfig = {
   seoMapFile: 'seo-map.json',
   htmlEntryFile: './public/index.html',
   router: {
-    path: './src/router.tsx', // Path to the router file
+    path: './src/router.ts', // Path to the router file
     routeProperties: {
       title: 'title',
       seoExclude: 'seoExclude',
@@ -46,7 +46,7 @@ module.exports = {
   seoMapFile: 'seo-map.json',
   htmlEntryFile: './public/index.html',
   router: {
-    path: './src/router.jsx', // Path to the router file
+    path: './src/router.js', // Path to the router file
     routeProperties: {
       title: 'title',
       seoExclude: 'seoExclude',
