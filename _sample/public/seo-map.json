@@ -2,25 +2,25 @@
   {
     "route": "/",
     "metadata": {
-      "title": "",
-      "description": "",
-      "body": "",
-      "keywords": [],
-      "headers": [],
-      "changefreq": "",
-      "priority": 0
+      "title": "Home",
+      "description": "Home page",
+      "body": "Home page",
+      "keywords": ["gutensight", "seo", "spa"],
+      "headers": ["Gutensight", "SEO", "SPA"],
+      "changefreq": "yearly",
+      "priority": 100
     }
   },
   {
     "route": "/about",
     "metadata": {
-      "title": "",
-      "description": "",
-      "body": "",
-      "keywords": [],
-      "headers": [],
-      "changefreq": "",
-      "priority": 0
+      "title": "About Use",
+      "description": "This is about Gutensight SEO manager tool",
+      "body": "This is the body of the about us page for the Gutensight SEO platform tool",
+      "keywords": ["gutensight", "seo", "spa", "Mission", "Vision"],
+      "headers": ["Gutensight", "SEO", "SPA", "About", "Our Mission", "Our Vision"],
+      "changefreq": "yearly",
+      "priority": 1
     }
   },
   {

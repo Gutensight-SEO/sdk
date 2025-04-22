@@ -63,7 +63,10 @@ export async function analyzePages() {
     console.log(`✅ Analysis completed successfully. Results saved to: ${outputPath}`);
 
   } catch (error: any) {
-    console.error('❌ Error analyzing pages:', error.message);
+    if (error.message == "Request failed with status code 400") console.error('❌ Error during login:', "API key is missing");
+    else if (error.message == "Request failed with status code 404") console.error('❌ Error during login:', "Invalid API key");
+    else if (error.message == "Request failed with status code 403") console.error('❌ Error during login:', "Quota Exceeded");
+    else console.error('❌ Error analyzing pages:', error.message);
     process.exit(1);
   }
 }
