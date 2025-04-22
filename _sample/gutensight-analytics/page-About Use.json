@@ -1,0 +1,16 @@
+[
+  {
+    "score": 68,
+    "issues": [
+      "Content length (15 words) below minimum requirement (800)",
+      "Title length 9 outside limits (30-60)",
+      "Missing structured data markup"
+    ],
+    "suggestions": [
+      "Expand your content with relevant information and details",
+      "Optimize title length to be between 30-60 characters",
+      "Add JSON-LD structured data markup for your content type"
+    ],
+    "url": "/about"
+  }
+]

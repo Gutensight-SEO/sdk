@@ -57,8 +57,10 @@ export async function analyzePage(pagePath: string) {
       }
     );
 
+    console.log("RESPONSE FROM API:", {response})
+
     const analyticsDir = path.resolve(process.cwd(), userConfig.analyticsDir);
-    const outputPath = path.join(analyticsDir, `page-${pagePath}.json`);
+    const outputPath = path.join(analyticsDir, `page-${pageData.title}.json`);
     // const timestamp = Date.now();
     // const outputPath = path.join(analyticsDir, `page-${pagePath}-${timestamp}.json`);
     

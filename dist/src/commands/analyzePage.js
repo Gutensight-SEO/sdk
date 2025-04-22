@@ -47,8 +47,9 @@ async function analyzePage(pagePath) {
                 'Content-Type': 'application/json',
             }
         });
+        console.log("RESPONSE FROM API:", { response });
         const analyticsDir = path_1.default.resolve(process.cwd(), userConfig.analyticsDir);
-        const outputPath = path_1.default.join(analyticsDir, `page-${pagePath}.json`);
+        const outputPath = path_1.default.join(analyticsDir, `page-${pageData.title}.json`);
         // const timestamp = Date.now();
         // const outputPath = path.join(analyticsDir, `page-${pagePath}-${timestamp}.json`);
         await fs_extra_1.default.ensureDir(analyticsDir);
