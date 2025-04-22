@@ -44,10 +44,11 @@ export async function analyzePage(pagePath: string) {
     };
 
     const response = await axios.post(
-      'https://gs-server-hzfd.onrender.com/api/v1/analyze/page',
+      'http://localhost:10000/api/v1/analyze/page',
+      // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/page',
       {
         apiKey,
-        content: pageData
+        page: pageData
       },
       {
         headers: {
@@ -57,7 +58,9 @@ export async function analyzePage(pagePath: string) {
     );
 
     const analyticsDir = path.resolve(process.cwd(), userConfig.analyticsDir);
-    const outputPath = path.join(analyticsDir, 'page-analyses.json');
+    const outputPath = path.join(analyticsDir, `page-${pagePath}.json`);
+    // const timestamp = Date.now();
+    // const outputPath = path.join(analyticsDir, `page-${pagePath}-${timestamp}.json`);
     
     await fs.ensureDir(analyticsDir);
 
@@ -76,10 +79,10 @@ export async function analyzePage(pagePath: string) {
     console.log(`📊 Results updated in: ${outputPath}`);
 
   } catch (error: any) {
-    if (error.message == "Request failed with status code 400") console.error('❌ Error during login:', "API key is missing");
-    else if (error.message == "Request failed with status code 404") console.error('❌ Error during login:', "Invalid API key");
-    else if (error.message == "Request failed with status code 403") console.error('❌ Error during login:', "Quota Exceeded");
-    else console.error('❌ Error analyzing page:', error.message);
+    if (error.message == "Request failed with status code 400") console.error('❌ Invalid request body');
+    else if (error.message == "Request failed with status code 401") console.error('❌ Error analyzing page:', "Invalid API key");
+    else if (error.message == "Request failed with status code 402") console.error('❌ Error analyzing pages:', "Quota Exceeded");
+    else console.error('❌ Analysis failed. Please try again');
     process.exit(1);
   }
 }

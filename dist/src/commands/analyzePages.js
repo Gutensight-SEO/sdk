@@ -19,7 +19,7 @@ async function analyzePages() {
         const userConfig = await (0, configLoader_1.loadConfig)();
         const seoMapPath = path_1.default.resolve(process.cwd(), userConfig.outputDir, userConfig.seoMapFile || 'seo-map.json');
         if (!fs_extra_1.default.existsSync(seoMapPath)) {
-            throw new Error('SEO map file not found. Please run `seo compile` first.');
+            throw new Error('❌ SEO map file not found. Please run `seo compile` first.');
         }
         const seoMap = await fs_extra_1.default.readJson(seoMapPath);
         const pages = seoMap.map((entry) => ({
@@ -33,7 +33,7 @@ async function analyzePages() {
             structured_data: false, // Default assumption
             status_code: 200 // Default assumption
         }));
-        const response = await axios_1.default.post('http://localhost:10000/api/v1/analyze/batch', 
+        const response = await axios_1.default.post('http://localhost:10000/api/v1/analyze/pages', 
         // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/batch',
         {
             apiKey,
@@ -41,7 +41,6 @@ async function analyzePages() {
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                // 'x-api-key': apiKey
             }
         });
         const analyticsDir = path_1.default.resolve(process.cwd(), userConfig.analyticsDir);
@@ -52,7 +51,14 @@ async function analyzePages() {
         console.log(`✅ Analysis completed successfully. Results saved to: ${outputPath}`);
     }
     catch (error) {
-        console.error('❌ Error analyzing pages:', error.message);
+        if (error.message == "Request failed with status code 400")
+            console.error('❌ Invalid request body');
+        else if (error.message == "Request failed with status code 401")
+            console.error('❌ Error analyzing pages:', "Invalid API key");
+        else if (error.message == "Request failed with status code 402")
+            console.error('❌ Error analyzing pages:', "Quota Exceeded");
+        else
+            console.error('❌ Analysis failed. Please try again');
         process.exit(1);
     }
 }

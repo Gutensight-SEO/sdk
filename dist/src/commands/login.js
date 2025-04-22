@@ -23,8 +23,8 @@ async function login() {
             return;
         }
         console.log("Authenticating...");
-        const response = await axios_1.default.post('http://localhost:10000/api/v1/analyze/api-key', { apiKey });
-        // const response = await axios.post('https://gs-server-hzfd.onrender.com/api/v1/analyze/api-key', { apiKey });
+        // const response = await axios.post('http://localhost:10000/api/v1/analyze/api-key', { apiKey });
+        const response = await axios_1.default.post('https://gs-server-hzfd.onrender.com/api/v1/analyze/api-key', { apiKey });
         console.log("Response gotten:", response.data);
         if (response.data.success) {
             config.set('apiKey', apiKey);

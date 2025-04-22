@@ -21,7 +21,7 @@ export async function analyzePages() {
     );
 
     if (!fs.existsSync(seoMapPath)) {
-      throw new Error('SEO map file not found. Please run `seo compile` first.');
+      throw new Error('❌ SEO map file not found. Please run `seo compile` first.');
     }
 
     const seoMap = await fs.readJson(seoMapPath);
@@ -39,7 +39,7 @@ export async function analyzePages() {
     }));
 
     const response = await axios.post(
-      'http://localhost:10000/api/v1/analyze/batch',
+      'http://localhost:10000/api/v1/analyze/pages',
       // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/batch',
       {
         apiKey,
@@ -48,7 +48,6 @@ export async function analyzePages() {
       {
         headers: {
           'Content-Type': 'application/json',
-          // 'x-api-key': apiKey
         }
       }
     );
@@ -63,10 +62,10 @@ export async function analyzePages() {
     console.log(`✅ Analysis completed successfully. Results saved to: ${outputPath}`);
 
   } catch (error: any) {
-    if (error.message == "Request failed with status code 400") console.error('❌ Error during login:', "API key is missing");
-    else if (error.message == "Request failed with status code 404") console.error('❌ Error during login:', "Invalid API key");
-    else if (error.message == "Request failed with status code 403") console.error('❌ Error during login:', "Quota Exceeded");
-    else console.error('❌ Error analyzing pages:', error.message);
+    if (error.message == "Request failed with status code 400") console.error('❌ Invalid request body');
+    else if (error.message == "Request failed with status code 401") console.error('❌ Error analyzing pages:', "Invalid API key");
+    else if (error.message == "Request failed with status code 402") console.error('❌ Error analyzing pages:', "Quota Exceeded");
+    else console.error('❌ Analysis failed. Please try again');
     process.exit(1);
   }
 }
