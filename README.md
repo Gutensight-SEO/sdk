@@ -2,6 +2,8 @@
 
 **An advanced SEO management SDK for Single-Page Applications (SPA)**
 
+**Warning: This package is for testing only and will be deprecated soon. Please use `npm install gutensight` instead.**
+
 **Version:** 0.1.0
 
 ---
