@@ -1,0 +1,17 @@
+src/
+bin/
+test/
+__tests__/
+coverage/
+node_modules/
+tsconfig*.json
+jest.config.js
+.prettierrc
+.eslintrc*
+.husky/
+.env
+.env.*
+.vscode/
+*.log
+*build.sh*
+
