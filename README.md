@@ -2,7 +2,10 @@
 
 **An advanced SEO management SDK for Single-Page Applications (SPA)**
 
-**Warning: This package is for testing only and will be deprecated soon. Please use `npm install gutensight` instead.**
+![deprecated](https://img.shields.io/badge/status-deprecated-red)
+> ⚠️ **Deprecated Package**  
+> This is an internal/testing version of `gutensight`. For stable use, [install the official SDK here](https://www.npmjs.com/package/gutensight).
+> Install the official version with `npm install gutensight`
 
 **Version:** 0.1.0
 
