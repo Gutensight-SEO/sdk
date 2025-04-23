@@ -180,7 +180,7 @@ See the [LICENSE](./LICENSE) file for details.
 
 ## Getting Help
 
-If you run into issues, please open an issue on [GitHub](https://github.com/Gutensight-SEO/sdk/issues) or join our community Slack at `#gutensight-support`.
+If you run into issues, please open an issue on [GitHub](https://github.com/Gutensight-SEO/sdk/issues)  # or join our community Slack at `#gutensight-support`.
 
 
 ---
