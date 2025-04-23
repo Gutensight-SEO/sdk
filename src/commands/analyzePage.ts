@@ -3,6 +3,7 @@ import path from 'path';
 import axios from 'axios';
 import { loadConfig } from '../utils/configLoader';
 import Configstore from 'configstore';
+import { API_URL_PAGE } from '../constants';
 
 const config = new Configstore('gutensight-seo');
 
@@ -44,8 +45,7 @@ export async function analyzePage(pagePath: string) {
     };
 
     const response = await axios.post(
-      'http://localhost:10000/api/v1/analyze/page',
-      // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/page',
+      API_URL_PAGE,
       {
         apiKey,
         page: pageData
@@ -57,12 +57,9 @@ export async function analyzePage(pagePath: string) {
       }
     );
 
-    console.log("RESPONSE FROM API:", {response})
 
     const analyticsDir = path.resolve(process.cwd(), userConfig.analyticsDir);
     const outputPath = path.join(analyticsDir, `page-${pageData.title}.json`);
-    // const timestamp = Date.now();
-    // const outputPath = path.join(analyticsDir, `page-${pagePath}-${timestamp}.json`);
     
     await fs.ensureDir(analyticsDir);
 
@@ -79,7 +76,6 @@ export async function analyzePage(pagePath: string) {
 
     console.log(`✅ Page analysis completed for ${pagePath}`);
     console.log(`📊 Results updated in: ${outputPath}`);
-
   } catch (error: any) {
     if (error.message == "Request failed with status code 400") console.error('❌ Invalid request body');
     else if (error.message == "Request failed with status code 401") console.error('❌ Error analyzing page:', "Invalid API key");

@@ -3,6 +3,7 @@ import path from 'path';
 import axios from 'axios';
 import { loadConfig } from '../utils/configLoader';
 import Configstore from 'configstore';
+import { API_URL_BATCH } from '../constants';
 
 const config = new Configstore('gutensight-seo');
 
@@ -33,14 +34,13 @@ export async function analyzePages() {
       keywords: entry.metadata.keywords || [],
       url: entry.route,
       content: entry.metadata.body || '',
-      mobile_friendly: true, // Default assumption
-      structured_data: false, // Default assumption
-      status_code: 200 // Default assumption
+      mobile_friendly: true, // default assumption
+      structured_data: false, // default assumption
+      status_code: 200 // default assumption
     }));
 
     const response = await axios.post(
-      'http://localhost:10000/api/v1/analyze/pages',
-      // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/batch',
+      API_URL_BATCH,
       {
         apiKey,
         pages
