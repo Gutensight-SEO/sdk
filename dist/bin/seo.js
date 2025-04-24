@@ -3,10 +3,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const commander_1 = require("commander");
 const commands_1 = require("../src/commands");
+const constants_1 = require("../src/constants");
 const program = new commander_1.Command();
 program
     .name('seo')
-    .version("0.2.0", '-v, --version', 'Output the current version')
+    .version(constants_1.VERSION_NUMBER, '-v, --version', 'Output the current version')
     .description('SEO optimization toolkit for Single-Page Web Applications')
     .option('-d, --debug', 'output extra debugging information');
 program
