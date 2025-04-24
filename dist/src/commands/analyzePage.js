@@ -9,6 +9,7 @@ const path_1 = __importDefault(require("path"));
 const axios_1 = __importDefault(require("axios"));
 const configLoader_1 = require("../utils/configLoader");
 const configstore_1 = __importDefault(require("configstore"));
+const constants_1 = require("../constants");
 const config = new configstore_1.default('gutensight-seo');
 async function analyzePage(pagePath) {
     try {
@@ -37,9 +38,7 @@ async function analyzePage(pagePath) {
             structured_data: false,
             status_code: 200
         };
-        const response = await axios_1.default.post('http://localhost:10000/api/v1/analyze/page', 
-        // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/page',
-        {
+        const response = await axios_1.default.post(constants_1.API_URL_PAGE, {
             apiKey,
             page: pageData
         }, {
@@ -47,11 +46,8 @@ async function analyzePage(pagePath) {
                 'Content-Type': 'application/json',
             }
         });
-        console.log("RESPONSE FROM API:", { response });
         const analyticsDir = path_1.default.resolve(process.cwd(), userConfig.analyticsDir);
         const outputPath = path_1.default.join(analyticsDir, `page-${pageData.title}.json`);
-        // const timestamp = Date.now();
-        // const outputPath = path.join(analyticsDir, `page-${pagePath}-${timestamp}.json`);
         await fs_extra_1.default.ensureDir(analyticsDir);
         let existingData = [];
         if (fs_extra_1.default.existsSync(outputPath)) {

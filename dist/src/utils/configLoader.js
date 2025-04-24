@@ -30,7 +30,7 @@ async function loadConfig() {
         let config;
         try {
             config = require(configPath);
-            // Handle ES module default export
+            // handle ES module default export
             if (config.default) {
                 config = config.default;
             }

@@ -9,6 +9,7 @@ const path_1 = __importDefault(require("path"));
 const axios_1 = __importDefault(require("axios"));
 const configLoader_1 = require("../utils/configLoader");
 const configstore_1 = __importDefault(require("configstore"));
+const constants_1 = require("../constants");
 const config = new configstore_1.default('gutensight-seo');
 async function analyzePages() {
     try {
@@ -29,13 +30,11 @@ async function analyzePages() {
             keywords: entry.metadata.keywords || [],
             url: entry.route,
             content: entry.metadata.body || '',
-            mobile_friendly: true, // Default assumption
-            structured_data: false, // Default assumption
-            status_code: 200 // Default assumption
+            mobile_friendly: true, // default assumption
+            structured_data: false, // default assumption
+            status_code: 200 // default assumption
         }));
-        const response = await axios_1.default.post('http://localhost:10000/api/v1/analyze/pages', 
-        // 'https://gs-server-hzfd.onrender.com/api/v1/analyze/batch',
-        {
+        const response = await axios_1.default.post(constants_1.API_URL_BATCH, {
             apiKey,
             pages
         }, {

@@ -2,12 +2,13 @@
 
 import { Command } from 'commander';
 import { login, logout, init, compile, analyzePage, analyzePages, build } from '../src/commands';
+import { VERSION_NUMBER } from '../src/constants';
 
 const program = new Command();
 
 program
   .name('seo')
-  .version("0.2.0", '-v, --version', 'Output the current version')
+  .version(VERSION_NUMBER, '-v, --version', 'Output the current version')
   .description('SEO optimization toolkit for Single-Page Web Applications')
   .option('-d, --debug', 'output extra debugging information')
 

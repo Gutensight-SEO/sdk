@@ -8,24 +8,6 @@ const fs_extra_1 = __importDefault(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
 const configLoader_1 = require("../utils/configLoader");
 const routerLoader_1 = require("../utils/routerLoader");
-// export async function generateRobots() {
-//   try {
-//     const config = await loadConfig();
-//     const { hostname } = config;
-//     if (!hostname) {
-//       throw new Error('hostname is missing in the configuration.');
-//     }
-//     const robotsContent = `User-agent: *
-// Allow: /
-// Sitemap: ${hostname}/sitemap.xml`;
-//     const outputPath = path.resolve(process.cwd(), config.outputDir, 'robots.txt');
-//     await fs.writeFile(outputPath, robotsContent.trim());
-//     console.log('robots.txt generated successfully.');
-//   } catch (error: any) {
-//     console.error('Error generating robots.txt:', error.message);
-//   }
-// }
-// generateRobots.ts
 async function generateRobots() {
     try {
         const config = await (0, configLoader_1.loadConfig)();

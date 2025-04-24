@@ -1,7 +1,7 @@
 {
   "name": "gutensight",
-  "version": "0.1.0",
-  "description": "A production-ready SEO SDK for Single Page Applications (SPA).",
+  "version": "0.1.1",
+  "description": "An advanced command-line SEO manager toolkit and library SDK for Single Page Applications (SPA).",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "exports": {
