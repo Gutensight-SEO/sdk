@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# set -e
+set -e
 
-# rm -rf ./dist
-# rm -rf /home/ennas/.nvm/versions/node/v23.10.0/bin/seo
+rm -rf ./dist
+rm -rf /home/ennas/.nvm/versions/node/v23.10.0/bin/seo
 
-# # npm run prepare
-# npm run build
+# npm run prepare
+npm run build
 
-# npm unlink gutensight
+npm unlink gutensight
 
-# npm link
+npm link
 
 
-npm publish --access public
+# npm publish --access public

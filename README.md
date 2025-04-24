@@ -2,7 +2,7 @@
 
 **An advanced SEO management SDK for Single-Page Applications (SPA)**
 
-**Version:** 0.1.2
+**Version:** 0.1.3
 
 ---
 
@@ -93,7 +93,7 @@ seo page /about
 Install locally without global flag when using programmatically:
 
 ```
-npm install gutensight
+npm install -g gutensight
 ```
 
 ```
