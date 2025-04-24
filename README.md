@@ -2,7 +2,7 @@
 
 **An advanced SEO management SDK for Single-Page Applications (SPA)**
 
-**Version:** 0.1.3
+**Version:** 0.1.4
 
 ---
 
