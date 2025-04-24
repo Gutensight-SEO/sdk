@@ -1,3 +1,3 @@
-export declare const API_URL_BATCH = "https://gs-server-hzfd.onrender.com/api/v1/analyze/batch";
-export declare const API_URL_PAGE = "https://gs-server-hzfd.onrender.com/api/v1/analyze/page";
-export declare const VERSION_NUMBER = "0.1.3";
+export declare const API_URL_BATCH = "http://localhost:10000/api/v1/analyze/pages";
+export declare const API_URL_PAGE = "http://localhost:10000/api/v1/analyze/page";
+export declare const VERSION_NUMBER = "0.1.4";
