@@ -1,12 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.init = init;
-const fs_extra_1 = __importDefault(require("fs-extra"));
-const path_1 = __importDefault(require("path"));
-const inquirer_1 = __importDefault(require("inquirer"));
+import fs from 'fs-extra';
+import path from 'path';
+import inquirer from 'inquirer';
 const TS_TEMPLATE = `import 'dotenv/config';
 
 const defaultConfig = {
@@ -73,13 +67,13 @@ module.exports = {
     },
   }
 };`;
-async function init(options) {
+export async function init(options) {
     try {
         const configContent = options.ts ? TS_TEMPLATE : JS_TEMPLATE;
         const configFileName = `seo.config.${options.ts ? 'ts' : 'js'}`;
-        const configDestinationPath = path_1.default.resolve(process.cwd(), configFileName);
-        if (fs_extra_1.default.existsSync(configDestinationPath)) {
-            const { overwrite } = await inquirer_1.default.prompt([
+        const configDestinationPath = path.resolve(process.cwd(), configFileName);
+        if (fs.existsSync(configDestinationPath)) {
+            const { overwrite } = await inquirer.prompt([
                 {
                     type: 'confirm',
                     name: 'overwrite',
@@ -93,7 +87,7 @@ async function init(options) {
             }
         }
         // Create the config file
-        await fs_extra_1.default.writeFile(configDestinationPath, configContent);
+        await fs.writeFile(configDestinationPath, configContent);
         console.log(`✅ Configuration file has been created successfully.`);
         console.log(`
 Successfully created ${configFileName}

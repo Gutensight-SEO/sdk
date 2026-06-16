@@ -24,18 +24,18 @@ export async function parseRoutes(
   });
 
   const routeTree: RouteNode[] = [];
-  const nodeMap = new WeakMap<t.ObjectExpression, RouteNode>();
-  const excludedNodes = new WeakSet<t.ObjectExpression>();
+  const nodeMap = new WeakMap<any, RouteNode>();
+  const excludedNodes = new WeakSet<any>();
 
-  traverse(ast, {
-    ObjectExpression(path: NodePath<t.ObjectExpression>) {
+  traverse(ast as any, {
+    ObjectExpression(path: any) {
       const obj = path.node;
 
       // Check if any ancestor is excluded
-      let currentPath: NodePath | null = path;
+      let currentPath: any = path;
       let hasExcludedParent = false;
       while (currentPath) {
-        if (currentPath.isObjectExpression() && excludedNodes.has(currentPath.node)) {
+        if (currentPath.isObjectExpression && currentPath.isObjectExpression() && excludedNodes.has(currentPath.node)) {
           hasExcludedParent = true;
           break;
         }
@@ -60,13 +60,15 @@ export async function parseRoutes(
       // Determine if this object is under a "children" array
       const parent = path.parentPath;
       if (
-        parent?.isArrayExpression() &&
-        parent.parentPath?.isObjectProperty() &&
-        t.isIdentifier(parent.parentPath.node.key, { name: 'children' })
+        parent?.isArrayExpression &&
+        parent.isArrayExpression() &&
+        parent.parentPath?.isObjectProperty &&
+        parent.parentPath.isObjectProperty() &&
+        t.isIdentifier(parent.parentPath.node.key as any, { name: 'children' })
       ) {
         // Attach to parent RouteNode
         const grandParentObj = parent.parentPath.parentPath;
-        if (grandParentObj?.isObjectExpression()) {
+        if (grandParentObj?.isObjectExpression && grandParentObj.isObjectExpression()) {
           const parentRoute = nodeMap.get(grandParentObj.node);
           parentRoute?.children.push(route);
         }
@@ -96,12 +98,12 @@ export async function parseRoutes(
  * Safely extracts a string property from an ObjectExpression.
  */
 function extractStringProperty(
-  node: t.ObjectExpression,
+  node: any,
   propertyName: string
 ): string | undefined {
   for (const prop of node.properties) {
-    if (t.isObjectProperty(prop) && t.isIdentifier(prop.key, { name: propertyName }) && t.isStringLiteral(prop.value)) {
-      return prop.value.value.trim();
+    if (t.isObjectProperty(prop as any) && t.isIdentifier(prop.key as any, { name: propertyName }) && t.isStringLiteral(prop.value as any)) {
+      return (prop.value as any).value.trim();
     }
   }
   return undefined;
@@ -111,12 +113,12 @@ function extractStringProperty(
  * Safely extracts a boolean property from an ObjectExpression.
  */
 function extractBooleanProperty(
-  node: t.ObjectExpression,
+  node: any,
   propertyName: string
 ): boolean {
   for (const prop of node.properties) {
-    if (t.isObjectProperty(prop) && t.isIdentifier(prop.key, { name: propertyName }) && t.isBooleanLiteral(prop.value)) {
-      return prop.value.value;
+    if (t.isObjectProperty(prop as any) && t.isIdentifier(prop.key as any, { name: propertyName }) && t.isBooleanLiteral(prop.value as any)) {
+      return (prop.value as any).value;
     }
   }
   return false;

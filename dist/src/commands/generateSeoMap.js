@@ -1,19 +1,13 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateSeoMap = generateSeoMap;
-const fs_extra_1 = __importDefault(require("fs-extra"));
-const path_1 = __importDefault(require("path"));
-const configLoader_1 = require("../utils/configLoader");
-const routerLoader_1 = require("../utils/routerLoader");
-async function generateSeoMap() {
+import fs from 'fs-extra';
+import path from 'path';
+import { loadConfig } from '../utils/configLoader';
+import { getRoutesFromRouterFile } from '../utils/routerLoader';
+export async function generateSeoMap() {
     try {
-        const config = await (0, configLoader_1.loadConfig)();
+        const config = await loadConfig();
         const { customOptions: { seoRules }, outputDir, seoMapFile, htmlEntryFile } = config;
         // Get routes from the centralized utility
-        const routes = await (0, routerLoader_1.getRoutesFromRouterFile)();
+        const routes = await getRoutesFromRouterFile();
         // Filter out excluded routes
         const allowedRoutes = routes.filter(route => !route.seoExclude);
         const seoMap = allowedRoutes.map(route => ({
@@ -28,16 +22,16 @@ async function generateSeoMap() {
                 priority: 0
             },
         }));
-        const seoMapPath = path_1.default.resolve(process.cwd(), outputDir, seoMapFile);
-        await fs_extra_1.default.writeJson(seoMapPath, seoMap, { spaces: 2 });
+        const seoMapPath = path.resolve(process.cwd(), outputDir, seoMapFile);
+        await fs.writeJson(seoMapPath, seoMap, { spaces: 2 });
         console.log(`✅ ${seoMapFile} generated successfully.`);
         if (seoRules.injectSeoMap) {
-            const indexPath = path_1.default.resolve(process.cwd(), htmlEntryFile);
-            if (!fs_extra_1.default.existsSync(indexPath)) {
+            const indexPath = path.resolve(process.cwd(), htmlEntryFile);
+            if (!fs.existsSync(indexPath)) {
                 console.warn('❌ index html file not found. Skipping SEO injection.');
                 return;
             }
-            let indexContent = await fs_extra_1.default.readFile(indexPath, 'utf-8');
+            let indexContent = await fs.readFile(indexPath, 'utf-8');
             const seoScript = `<script id="seo-map" type="application/json">${JSON.stringify(seoMap)}</script>`;
             if (indexContent.includes('<script id="seo-map"')) {
                 indexContent = indexContent.replace(/<script id="seo-map".*?<\/script>/s, seoScript);
@@ -45,7 +39,7 @@ async function generateSeoMap() {
             else {
                 indexContent = indexContent.replace('</head>', `${seoScript}</head>`);
             }
-            await fs_extra_1.default.writeFile(indexPath, indexContent);
+            await fs.writeFile(indexPath, indexContent);
             console.log('✅ SEO metadata injected into index.html.');
         }
     }
