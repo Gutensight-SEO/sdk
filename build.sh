@@ -3,7 +3,7 @@
 set -e
 
 rm -rf ./dist
-rm -rf /home/ennas/.nvm/versions/node/v23.10.0/bin/seo
+rm -rf /home/ennas/.nvm/versions/node/25.9.0/bin/seo
 
 # npm run prepare
 npm run build

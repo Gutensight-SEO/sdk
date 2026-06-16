@@ -54,6 +54,10 @@
   "author": "Abdulhakeem Muhammed Ibiyemi",
   "license": "BUSL-1.1",
   "dependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/parser": "^7.29.7",
+    "@babel/traverse": "^8.0.0",
+    "@babel/types": "^7.29.7",
     "axios": "^1.18.0",
     "commander": "^15.0.0",
     "configstore": "^8.0.0",
@@ -64,26 +68,5 @@
   },
   "engines": {
     "node": ">=16.0.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.29.7",
-    "@babel/parser": "^7.29.7",
-    "@babel/traverse": "^8.0.0",
-    "@babel/types": "^7.29.7",
-    "@types/configstore": "^6.0.2",
-    "@types/fs-extra": "^11.0.4",
-    "@types/inquirer": "^9.0.10",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^25.9.3",
-    "eslint": "^10.5.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.6",
-    "husky": "^9.1.7",
-    "jest": "^30.4.2",
-    "prettier": "^3.8.4",
-    "react": "^19.2.7",
-    "ts-jest": "^29.4.11",
-    "ts-node": "^10.9.2",
-    "typescript": "^6.0.3"
   }
 }
