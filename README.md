@@ -64,7 +64,7 @@ seo init
 seo compile
 
 # Set an optional 'injectSeoMap' to 'true' inside the 'seo.config' file. Default is 'false'.
-# 'injectSeoMap: true' Injects the compiled seo-map.json routes it into your index.html for immediate crawler-friendly output.
+# 'injectSeoMap: true' Injects the compiled seo-map.json routes into your index.html for immediate crawler-friendly output.
 
 # Make necessary adjustments and update the metadata of the compiled routes
 ```

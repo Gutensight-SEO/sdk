@@ -1,10 +1,16 @@
-import inquirer from 'inquirer';
-import axios from 'axios';
-import Configstore from 'configstore';
-const config = new Configstore('gutensight-seo');
-export async function login() {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.login = login;
+const inquirer_1 = __importDefault(require("inquirer"));
+const axios_1 = __importDefault(require("axios"));
+const configstore_1 = __importDefault(require("configstore"));
+const config = new configstore_1.default('gutensight-seo');
+async function login() {
     try {
-        const { apiKey } = await inquirer.prompt([
+        const { apiKey } = await inquirer_1.default.prompt([
             {
                 type: 'input',
                 name: 'apiKey',
@@ -18,7 +24,7 @@ export async function login() {
         }
         console.log("Authenticating...");
         // const response = await axios.post('http://localhost:10000/api/v1/analyze/api-key', { apiKey });
-        const response = await axios.post('https://gs-server-hzfd.onrender.com/api/v1/analyze/api-key', { apiKey });
+        const response = await axios_1.default.post('https://gs-server-hzfd.onrender.com/api/v1/analyze/api-key', { apiKey });
         console.log("Response gotten:", response.data);
         if (response.data.success) {
             config.set('apiKey', apiKey);

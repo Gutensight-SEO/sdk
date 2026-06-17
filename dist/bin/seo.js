@@ -1,45 +1,47 @@
 #!/usr/bin/env node
-import { Command } from 'commander';
-import { login, logout, init, compile, analyzePage, analyzePages, build } from '../src/commands';
-import { VERSION_NUMBER } from '../src/constants';
-const program = new Command();
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const commander_1 = require("commander");
+const commands_1 = require("../src/commands");
+const constants_1 = require("../src/constants");
+const program = new commander_1.Command();
 program
     .name('seo')
-    .version(VERSION_NUMBER, '-v, --version', 'Output the current version')
+    .version(constants_1.VERSION_NUMBER, '-v, --version', 'Output the current version')
     .description('SEO optimization toolkit for Single-Page Web Applications')
     .option('-d, --debug', 'output extra debugging information');
 program
     .command('login')
     .description('Authenticate user command')
-    .action(login);
+    .action(commands_1.login);
 program
     .command('logout')
     .description('Remove user authentication command')
-    .action(logout);
+    .action(commands_1.logout);
 program
     .command('init')
     .alias('i')
     .description('Initialize project command')
     .option('--ts', 'Use TypeScript configuration')
-    .action(init);
+    .action(commands_1.init);
 program
     .command('compile')
     .description('Compile SEO routes and metadata into seo-map.json file')
-    .action(compile);
+    .action(commands_1.compile);
 program
     .command('build')
     .description('Build and inject SEO into index.html')
-    .action(build);
+    .action(commands_1.build);
 program
     .command('pages')
     .description('Analyze all pages')
-    .action(analyzePages);
+    .action(commands_1.analyzePages);
 program
     .command('page <path>')
     //   .command('page')
     //   .argument('<url>', 'Page URL to analyze (e.g., /about)')
     .description('Analyze specific page by specifying the page route as present in your seo-map file e.g "/about"')
-    .action(analyzePage);
+    .action(commands_1.analyzePage);
 // Add examples
 program.addHelpText('after', `
     Commands Summary:

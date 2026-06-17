@@ -1,19 +1,25 @@
-import dotenv from 'dotenv';
-import fs from 'fs-extra';
-import path from 'path';
-export async function loadConfig() {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.loadConfig = loadConfig;
+const dotenv_1 = __importDefault(require("dotenv"));
+const fs_extra_1 = __importDefault(require("fs-extra"));
+const path_1 = __importDefault(require("path"));
+async function loadConfig() {
     // // Load environment variables from .env file
-    dotenv.config();
+    dotenv_1.default.config();
     try {
         const possiblePaths = [
-            path.resolve(process.cwd(), 'seo.config.js'),
-            path.resolve(process.cwd(), 'seo.config.ts'),
-            path.resolve(process.cwd(), '..', 'seo.config.js'),
-            path.resolve(process.cwd(), '..', 'seo.config.ts'),
+            path_1.default.resolve(process.cwd(), 'seo.config.js'),
+            path_1.default.resolve(process.cwd(), 'seo.config.ts'),
+            path_1.default.resolve(process.cwd(), '..', 'seo.config.js'),
+            path_1.default.resolve(process.cwd(), '..', 'seo.config.ts'),
         ];
         let configPath;
         for (const p of possiblePaths) {
-            if (fs.existsSync(p)) {
+            if (fs_extra_1.default.existsSync(p)) {
                 configPath = p;
                 break;
             }
@@ -43,11 +49,11 @@ export async function loadConfig() {
             throw new Error('❌ Invalid configuration file. Ensure `router` and `outputDir` are defined.');
         }
         // Add .tsx, .ts, .jsx, .js extensions if not specified
-        if (!path.extname(config.router.path)) {
+        if (!path_1.default.extname(config.router.path)) {
             const extensions = ['.tsx', '.ts', '.jsx', '.js'];
             for (const ext of extensions) {
-                const fullPath = path.resolve(process.cwd(), config.router.path + ext);
-                if (fs.existsSync(fullPath)) {
+                const fullPath = path_1.default.resolve(process.cwd(), config.router.path + ext);
+                if (fs_extra_1.default.existsSync(fullPath)) {
                     config.router.path += ext;
                     break;
                 }

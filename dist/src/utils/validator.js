@@ -1,4 +1,8 @@
-export function validateMetadata(metadata) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateMetadata = validateMetadata;
+exports.validateConfig = validateConfig;
+function validateMetadata(metadata) {
     if (!metadata.title || typeof metadata.title !== 'string') {
         throw new Error('❌ Invalid metadata: "title" is required and must be a string.');
     }
@@ -10,7 +14,7 @@ export function validateMetadata(metadata) {
     }
     return true;
 }
-export function validateConfig(config) {
+function validateConfig(config) {
     if (!config.siteUrl || typeof config.siteUrl !== 'string') {
         throw new Error('❌ Invalid configuration: "siteUrl" is required and must be a string.');
     }
